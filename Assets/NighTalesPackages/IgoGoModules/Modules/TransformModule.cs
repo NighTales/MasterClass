@@ -27,6 +27,8 @@ public class TransformModule : UsingObject
 
     [SerializeField] private Platform platform;
     [SerializeField] private Vector3 end = Vector3.forward;
+    [SerializeField] private bool usePhysics = false;
+
 
     private Rigidbody rb;
     private Vector3 start;
@@ -36,7 +38,8 @@ public class TransformModule : UsingObject
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        if(usePhysics)
+            rb = GetComponent<Rigidbody>();
         start = transform.position;
     }
 
@@ -76,8 +79,15 @@ public class TransformModule : UsingObject
         Vector3 deltaPosition = pos - transform.position;
         if (Application.isEditor && !Application.isPlaying)
             transform.position = pos;
-        rb.MovePosition(pos);
 
+        if (usePhysics)
+        {
+            rb.MovePosition(pos);
+        }
+        else
+        {
+            transform.position = pos;
+        }
 
         if (platform != null)
             platform.MoveCharacterController(deltaPosition);
@@ -132,7 +142,7 @@ public class TransformModule : UsingObject
 
     public override void Use()
     {
-        if (!activate || loopType == LoopType.Once)
+        if (loopType == LoopType.Once || !activate)
         {
             StartMovement();
         }

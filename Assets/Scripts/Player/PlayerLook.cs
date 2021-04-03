@@ -13,6 +13,12 @@ public class PlayerLook : MonoBehaviour
 
     private float _rotationX = 0;
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     void LateUpdate()
     {
         Rotate();

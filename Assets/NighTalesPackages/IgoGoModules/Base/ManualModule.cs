@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class ManualModule : UsingOrigin
 {
-    public bool startActionManually = false;
+    public string message;
+    public Sprite messageSprite;
 
-    public override void ToStart()
-    {
-    }
+    private PlayerUI playerUI;
 
     public override void Use()
     {
@@ -17,16 +17,10 @@ public class ManualModule : UsingOrigin
 
     private void OnDrawGizmos()
     {
-        if(startActionManually)
-        {
-            Use();
-            startActionManually = false;
-        }
-
         if (debug)
         {
             Gizmos.color = new Color(255, 134, 0, 255);
-            Gizmos.DrawSphere(transform.position, 0.3f);
+            Gizmos.DrawSphere(transform.position, 0.1f);
             for (int i = 0; i < nextUsingObjects.Count; i++)
             {
                 if (nextUsingObjects[i] != null)
@@ -39,5 +33,10 @@ public class ManualModule : UsingOrigin
                 }
             }
         }
+    }
+
+    public override void ToStart()
+    {
+
     }
 }
