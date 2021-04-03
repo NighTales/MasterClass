@@ -106,8 +106,9 @@ public class TransformModule : UsingObject
     void LoopOnce()
     {
         position = Mathf.Clamp01(time);
-        if (position >= 1 || position <= 0)
+        if (position <= 0 || position >= 1)
         {
+            time = position;
             activate = false;
             OnStopCommand?.Invoke();
             PlayAudioEnd();
@@ -142,13 +143,20 @@ public class TransformModule : UsingObject
 
     public override void Use()
     {
-        if (loopType == LoopType.Once || !activate)
+        if (loopType == LoopType.Once)
         {
             StartMovement();
         }
         else
         {
-            activate = false;
+            if (!activate)
+            {
+                StartMovement();
+            }
+            else
+            {
+                activate = false;
+            }
         }
     }
 
