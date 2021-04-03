@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerLocomotion : MonoBehaviour
 {
     [Header("Перемещение")]
-    [SerializeField] private Transform cam;
     [SerializeField, Range(1, 10)] private float speed = 5f;
     [SerializeField, Range(1, 50)] private float jumpForce = 15.0f;
     [SerializeField, Range(-40, -1)] private float terminalVelocity = -10.0f;
@@ -16,27 +15,57 @@ public class PlayerLocomotion : MonoBehaviour
 
     private CharacterController charController;
     private Vector3 moveVector;
-    private Vector3 horSpeed;
-    private float sprintMultiplicatorBufer;
-    private float currentSprintReloadTime;
     private float vertSpeed;
     private bool fall;
     private float fallTimer;
+    private bool opportunityToMove;
 
-    private Vector3 CamRightZero => new Vector3(cam.right.x, 0, cam.right.z);
-    private Vector3 CamForwardZero => new Vector3(cam.forward.x, 0, cam.forward.z);
+    private Transform myTransform;
 
     private void Start()
     {
+        myTransform = transform;
+        opportunityToMove = true;
         vertSpeed = minFall;
         charController = GetComponent<CharacterController>();
-        sprintMultiplicatorBufer = 1;
         fall = true;
     }
     void Update()
     {
-        Jump();
-        PlayerMove();
+        if(opportunityToMove)
+        {
+            Jump();
+            PlayerMove();
+        }
+    }
+
+    public void FreezeLocomotion()
+    {
+        opportunityToMove = charController.enabled = false;
+    }
+    public void ReturnLocomotionOpportunity()
+    {
+        opportunityToMove = charController.enabled = true;
+    }
+    public void SmoothMoveToPoint(Transform point)
+    {
+        StartCoroutine(SmoothMoveToPointCoroutine(point));
+    }
+    private IEnumerator SmoothMoveToPointCoroutine(Transform point)
+    {
+        float t = 0;
+        Vector3 startPos = transform.position;
+        Quaternion startRot = transform.rotation;
+
+        while(t < 1)
+        {
+            t += Time.deltaTime * 2;
+            transform.position = Vector3.Lerp(startPos, point.position, t);
+            transform.rotation = Quaternion.Lerp(startRot, point.rotation, t);
+            yield return null;
+        }
+        transform.position = point.position;
+        transform.rotation = point.rotation;
     }
 
     private void Jump()
@@ -78,16 +107,13 @@ public class PlayerLocomotion : MonoBehaviour
     }
     private void PlayerMove()
     {
-        float deltaX = Input.GetAxis("Horizontal") * speed;
-        float deltaZ = Input.GetAxis("Vertical") * speed;
-        moveVector = CamForwardZero * deltaZ + CamRightZero * deltaX;
-        //Ограничим движение по диагонали той же скоростью, что и движение параллельно осям
-        moveVector = Vector3.ClampMagnitude(moveVector, speed) * sprintMultiplicatorBufer;
-        horSpeed = moveVector;
+        float deltaX = Input.GetAxis("Horizontal");
+        float deltaZ = Input.GetAxis("Vertical");
+        moveVector = myTransform.forward * deltaZ + myTransform.right * deltaX;
+        moveVector.y = 0;
+        moveVector = moveVector.normalized * speed;
         moveVector.y = vertSpeed;
         moveVector *= Time.deltaTime;
-        //Преобразуем вектор движения от локальных к глобальным координатам.
-        moveVector = transform.TransformDirection(moveVector);
         charController.Move(moveVector);
     }
 }

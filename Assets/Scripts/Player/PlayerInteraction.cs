@@ -12,7 +12,7 @@ public class PlayerInteraction : MonoBehaviour
     private PlayerUI playerUI;
     private RaycastHit hit;
     private Collider bufer;
-    private ManualModule currentModule;
+    private InteractableItem interactableItem;
 
     private void Start()
     {
@@ -26,11 +26,11 @@ public class PlayerInteraction : MonoBehaviour
         {
             if(hit.collider != bufer)
             {
-                if (hit.collider.CompareTag("ManualModule"))
+                if (hit.collider.CompareTag("Interactable"))
                 {
-                    currentModule = hit.collider.GetComponent<ManualModule>();
+                    interactableItem = hit.collider.GetComponent<InteractableItem>();
                     bufer = hit.collider;
-                    playerUI.SetMessage(interactionButton + " - " + currentModule.message, currentModule.messageSprite);
+                    playerUI.SetMessage(interactionButton + " - " + interactableItem.message, interactableItem.messageSprite);
                     return;
                 }
             }
@@ -44,7 +44,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             playerUI.Clear();
             bufer = null;
-            currentModule = null;
+            interactableItem = null;
         }
     }
 
@@ -52,7 +52,14 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(Input.GetKeyDown(interactionButton))
         {
-            currentModule?.Use();
+            interactableItem?.Use();
         }
     }
+}
+
+[RequireComponent(typeof(Collider))]
+public abstract class InteractableItem : UsingOrigin
+{
+    public string message;
+    public Sprite messageSprite;
 }
