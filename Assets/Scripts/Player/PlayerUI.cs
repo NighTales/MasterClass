@@ -21,6 +21,11 @@ public class PlayerUI : MonoBehaviour
         pointerImage.sprite = defaultSprite;
     }
 
+    public void SetPointerVisible(bool value)
+    {
+        pointerImage.enabled = value;
+    }
+
     public void SetMessage(string message, Sprite icon)
     {
         text.text = message;
