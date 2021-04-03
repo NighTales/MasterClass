@@ -7,12 +7,11 @@ using UnityEngine;
 /// </summary>
 public class GameObjectActivator : UsingObject
 {
-    [Tooltip("Объекты, которые будут переключены")] public List<GameObject> gameObjects;
-    [Tooltip("Значение свойсва SetActive у всех объектов после ктивции")] public bool state;
+    [Tooltip("Объекты, которые будут переключены")] public List<StateContainer> targets;
    
     public override void Use()
     {
-        SetStateForAll(state);
+        SetStateForAll();
         used = true;
     }
     public override void ToStart()
@@ -20,13 +19,14 @@ public class GameObjectActivator : UsingObject
         used = false;
     }
 
-    private void SetStateForAll(bool value)
+    private void SetStateForAll()
     {
-        for (int i = 0; i < gameObjects.Count; i++)
+        for (int i = 0; i < targets.Count; i++)
         {
-            if (gameObjects[i] != null)
+            if (targets[i] != null)
             {
-                gameObjects[i].SetActive(value);
+                targets[i].targetGO.SetActive(targets[i].targetState);
+                targets[i].targetState = !targets[i].targetState;
             }
             else
             {
@@ -40,20 +40,20 @@ public class GameObjectActivator : UsingObject
         {
             Gizmos.color = Color.gray;
             Gizmos.DrawSphere(transform.position, 0.3f);
-            if(state)
-            {
-                Gizmos.color = Color.green;
-            }
-            else
-            {
-                Gizmos.color = Color.red;
-            }
 
-            for (int i = 0; i < gameObjects.Count; i++)
+            for (int i = 0; i < targets.Count; i++)
             {
-                if (gameObjects[i] != null)
+                if (targets[i] != null && targets[i].targetGO != null)
                 {
-                    Gizmos.DrawLine(transform.position, gameObjects[i].transform.position);
+                    if (targets[i].targetState)
+                    {
+                        Gizmos.color = Color.green;
+                    }
+                    else
+                    {
+                        Gizmos.color = Color.red;
+                    }
+                    Gizmos.DrawLine(transform.position, targets[i].targetGO.transform.position);
                 }
                 else
                 {
@@ -62,4 +62,11 @@ public class GameObjectActivator : UsingObject
             }
         }
     }
+}
+
+[System.Serializable]
+public class StateContainer
+{
+    public GameObject targetGO;
+    public bool targetState = false;
 }
