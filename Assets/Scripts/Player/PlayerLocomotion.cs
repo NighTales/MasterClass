@@ -20,9 +20,6 @@ public class PlayerLocomotion : MonoBehaviour
     private float sprintMultiplicatorBufer;
     private float currentSprintReloadTime;
     private float vertSpeed;
-    private int sprintCount;
-    private bool inMenu;
-    private bool startup;
     private bool fall;
     private float fallTimer;
 
@@ -81,19 +78,16 @@ public class PlayerLocomotion : MonoBehaviour
     }
     private void PlayerMove()
     {
-        if (!startup)
-        {
-            float deltaX = Input.GetAxis("Horizontal") * speed;
-            float deltaZ = Input.GetAxis("Vertical") * speed;
-            moveVector = CamForwardZero * deltaZ + CamRightZero * deltaX;
-            //Ограничим движение по диагонали той же скоростью, что и движение параллельно осям
-            moveVector = Vector3.ClampMagnitude(moveVector, speed) * sprintMultiplicatorBufer;
-            horSpeed = moveVector;
-            moveVector.y = vertSpeed;
-            moveVector *= Time.deltaTime;
-            //Преобразуем вектор движения от локальных к глобальным координатам.
-            moveVector = transform.TransformDirection(moveVector);
-            charController.Move(moveVector);
-        }
+        float deltaX = Input.GetAxis("Horizontal") * speed;
+        float deltaZ = Input.GetAxis("Vertical") * speed;
+        moveVector = CamForwardZero * deltaZ + CamRightZero * deltaX;
+        //Ограничим движение по диагонали той же скоростью, что и движение параллельно осям
+        moveVector = Vector3.ClampMagnitude(moveVector, speed) * sprintMultiplicatorBufer;
+        horSpeed = moveVector;
+        moveVector.y = vertSpeed;
+        moveVector *= Time.deltaTime;
+        //Преобразуем вектор движения от локальных к глобальным координатам.
+        moveVector = transform.TransformDirection(moveVector);
+        charController.Move(moveVector);
     }
 }
