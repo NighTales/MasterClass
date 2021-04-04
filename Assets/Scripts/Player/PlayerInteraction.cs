@@ -42,7 +42,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (bufer != null)
         {
-            playerUI.Clear();
+            playerUI.ClearPointer();
             bufer = null;
             interactableItem = null;
         }

@@ -8,14 +8,17 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Text text;
     [SerializeField] private Image pointerImage;
     [SerializeField] private Sprite defaultSprite;
+    [SerializeField] private GameObject passwordPanel;
+    [SerializeField] private Text passwordText;
 
     // Start is called before the first frame update
     void Start()
     {
-        Clear();
+        ClearPointer();
+        ClearPassword();
     }
 
-    public void Clear()
+    public void ClearPointer()
     {
         text.text = string.Empty;
         pointerImage.sprite = defaultSprite;
@@ -30,5 +33,15 @@ public class PlayerUI : MonoBehaviour
     {
         text.text = message;
         pointerImage.sprite = icon;
+    }
+
+    public void SetPassword(string password)
+    {
+        passwordPanel.SetActive(true);
+        passwordText.text = password;
+    }
+    public void ClearPassword()
+    {
+        passwordPanel.SetActive(false);
     }
 }

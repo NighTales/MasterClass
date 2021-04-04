@@ -5,14 +5,15 @@ using UnityEngine.UI;
 
 public class ComputerModule : InteractableItem
 {
+    public string password;
+
+
     [SerializeField]
     private Transform playerPoint;
     [SerializeField]
     private Transform playerLookPoint;
     [SerializeField]
     private Text passwordText;
-    [SerializeField]
-    private string password;
     [SerializeField]
     private GameObject passwordPack;
     [SerializeField]
@@ -24,10 +25,13 @@ public class ComputerModule : InteractableItem
     private int numberOfAttempts = 3;
     [SerializeField]
     private InputField inputField;
+    [SerializeField]
+    private Text attemtsCountText;
 
     private PlayerLocomotion playerLokomotion;
     private PlayerLook playerLook;
     private PlayerUI playerUI;
+    private PlayerInfoHolder playerInfoHolder;
     private Collider col;
 
     public override void ToStart()
@@ -45,7 +49,8 @@ public class ComputerModule : InteractableItem
         else
         {
             numberOfAttempts--;
-            if(numberOfAttempts == 0)
+            attemtsCountText.text = "Попыток " + numberOfAttempts;
+            if (numberOfAttempts == 0)
             {
                 blockPack.SetActive(true);
                 passwordPack.SetActive(false);
@@ -59,6 +64,7 @@ public class ComputerModule : InteractableItem
         playerLokomotion.SmoothMoveToPoint(playerPoint);
         playerLook.ToMenuState(playerLookPoint);
         playerUI.SetPointerVisible(false);
+        playerInfoHolder.FindPassword(this);
         col.enabled = false;
     }
     public void ToDefault()
@@ -67,14 +73,17 @@ public class ComputerModule : InteractableItem
         playerUI.SetPointerVisible(true);
         playerLokomotion.ReturnLocomotionOpportunity();
         playerLook.ToDefaultState();
+        playerUI.ClearPassword();
     }
 
     void Start()
     {
+        playerInfoHolder = FindObjectOfType<PlayerInfoHolder>();
         col = GetComponent<Collider>();
         playerLokomotion = FindObjectOfType<PlayerLocomotion>();
         playerLook = FindObjectOfType<PlayerLook>();
         playerUI = FindObjectOfType<PlayerUI>();
+        attemtsCountText.text = "Попыток " + numberOfAttempts; 
     }
 
     private void OnDrawGizmos()
