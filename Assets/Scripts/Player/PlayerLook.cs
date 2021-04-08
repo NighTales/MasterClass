@@ -5,10 +5,12 @@ using UnityEngine;
 public class PlayerLook : MonoBehaviour
 {
     [Header("Обзор")]
-    [SerializeField] private Transform cam;
-    [SerializeField] private Transform camBufer;
-    [SerializeField, Range(1, 20)] private float sensitivityHor = 9.0f;
-    [SerializeField, Range(1, 20)] private float sensitivityVert = 9.0f;
+    [SerializeField, Tooltip("Объект - камера")] private Transform cam;
+    [SerializeField, Tooltip("Объект - пустышка, в которой находится камера")] private Transform camBufer;
+    [SerializeField, Range(1, 20), Tooltip("Чувствительность камеры по горизонтали")]
+    private float sensitivityHor = 9.0f;
+    [SerializeField, Range(1, 20), Tooltip("Чувствительность камеры по вертикали")]
+    private float sensitivityVert = 9.0f;
     [SerializeField, Tooltip("Ограничение угла камеры снизу"), Range(-89, 0)] private float minimumVert = -45.0f;
     [SerializeField, Tooltip("Ограничение угла камеры сверху"), Range(0, 89)] private float maximumVert = 45.0f;
 

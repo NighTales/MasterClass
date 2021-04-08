@@ -1079,7 +1079,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ead9a32c5dac0d4a97b057ea46507ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  computers: []
 --- !u!1001 &463784752
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1872,19 +1871,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  activate: 0
-  OnStartCommand:
-    m_PersistentCalls:
-      m_Calls: []
-  OnStopCommand:
-    m_PersistentCalls:
-      m_Calls: []
-  onStartAudioclip: {fileID: 8300000, guid: 0bd05763df902854a80475577a26666a, type: 3}
-  onEndAudioclip: {fileID: 0}
-  audioSource: {fileID: 635545849}
-  platform: {fileID: 0}
   end: {x: 0, y: 0, z: 0}
-  usePhysics: 0
 --- !u!54 &635545851
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2050,19 +2037,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  activate: 0
-  OnStartCommand:
-    m_PersistentCalls:
-      m_Calls: []
-  OnStopCommand:
-    m_PersistentCalls:
-      m_Calls: []
-  onStartAudioclip: {fileID: 8300000, guid: 0bd05763df902854a80475577a26666a, type: 3}
-  onEndAudioclip: {fileID: 0}
-  audioSource: {fileID: 635545853}
-  platform: {fileID: 0}
   end: {x: 0, y: 0, z: -1}
-  usePhysics: 0
 --- !u!54 &635545855
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3929,7 +3904,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499240, guid: ef77650fcc7dfd64a8d614922d90c382, type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 499240, guid: ef77650fcc7dfd64a8d614922d90c382, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7204,6 +7179,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6536359003933076064, guid: c1c06baac03dcfc4e83462a7c799aa94, type: 3}
+      propertyPath: duration
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6993738189175078788, guid: c1c06baac03dcfc4e83462a7c799aa94, type: 3}
       propertyPath: m_Name
       value: Cabin
@@ -7254,6 +7233,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6993738189175078795, guid: c1c06baac03dcfc4e83462a7c799aa94, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6993738189618783070, guid: c1c06baac03dcfc4e83462a7c799aa94, type: 3}
+      propertyPath: debug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6993738189768169581, guid: c1c06baac03dcfc4e83462a7c799aa94, type: 3}
+      propertyPath: targets.Array.data[0].targetState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6993738189922275855, guid: c1c06baac03dcfc4e83462a7c799aa94, type: 3}
+      propertyPath: debug
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

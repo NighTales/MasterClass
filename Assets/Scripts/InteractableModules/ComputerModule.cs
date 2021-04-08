@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
 public class ComputerModule : InteractableItem
 {
+    [Header("Настройки")]
     public string password;
-
-
+    [Range(1, 10)]
+    [SerializeField]
+    private int numberOfAttempts = 3;
     [SerializeField]
     private Transform playerPoint;
     [SerializeField]
     private Transform playerLookPoint;
+
+    [Header("UI")]
     [SerializeField]
     private Text passwordText;
     [SerializeField]
@@ -20,9 +25,6 @@ public class ComputerModule : InteractableItem
     private GameObject commandPack;
     [SerializeField]
     private GameObject blockPack;
-    [SerializeField]
-    [Range(1, 10)]
-    private int numberOfAttempts = 3;
     [SerializeField]
     private InputField inputField;
     [SerializeField]
