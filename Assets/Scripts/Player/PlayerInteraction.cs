@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    [SerializeField] private LayerMask ignoreMask;
-    [SerializeField, Range(1,3)] private float interactionDistance = 1;
-    [SerializeField] private KeyCode interactionButton = KeyCode.E;
+    [SerializeField, Tooltip("На какие слои не реагировать")]
+    private LayerMask ignoreMask;
+    [SerializeField, Range(1,3), Tooltip("На каком расстоянии можно взаимодействовать")]
+    private float interactionDistance = 1;
+    [SerializeField, Tooltip("Какую кнопку использовать для взаимодействия")]
+    private KeyCode interactionButton = KeyCode.E;
 
     private Transform myTransform;
     private PlayerUI playerUI;
@@ -60,6 +63,6 @@ public class PlayerInteraction : MonoBehaviour
 [RequireComponent(typeof(Collider))]
 public abstract class InteractableItem : UsingOrigin
 {
-    public string message;
-    public Sprite messageSprite;
+    [Tooltip("Текстовая подсказка при наведении на объект")] public string message;
+    [Tooltip("Значок прицела при наведении на объект")] public Sprite messageSprite;
 }

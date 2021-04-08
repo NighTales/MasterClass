@@ -181,8 +181,7 @@ MonoBehaviour:
   speed: 5
   jumpForce: 15
   terminalVelocity: -10
-  minFall: -1.5
-  gravity: 9.8
+  gravity: 1
 --- !u!114 &1530491481243161952
 MonoBehaviour:
   m_ObjectHideFlags: 0

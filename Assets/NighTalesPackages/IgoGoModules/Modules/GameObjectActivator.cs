@@ -5,10 +5,16 @@ using UnityEngine;
 /// <summary>
 /// Задаёт указанным объектам значение activeSalfe, равное state
 /// </summary>
+[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
 public class GameObjectActivator : UsingObject
 {
-    [Tooltip("Объекты, которые будут переключены")] public List<StateContainer> targets;
-   
+    [Tooltip("Объекты, которые будут переключены. TargetState для каждого после переключения" +
+        "сменится на противоположный. Модуль можно будет использовать повторно для обратного эффекта.")]
+    public List<StateContainer> targets;
+
+    /// <summary>
+    /// Переключить активность указанных объектов
+    /// </summary>
     public override void Use()
     {
         SetStateForAll();
@@ -67,6 +73,6 @@ public class GameObjectActivator : UsingObject
 [System.Serializable]
 public class StateContainer
 {
-    public GameObject targetGO;
-    public bool targetState = false;
+    [Tooltip("Объект, которому нужно задать состояние")] public GameObject targetGO;
+    [Tooltip("Целевое состояние. Если отмечено, объект будет включен")] public bool targetState = false;
 }

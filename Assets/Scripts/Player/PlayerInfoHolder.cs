@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerInfoHolder : MonoBehaviour
 {
-    [SerializeField]
     private List<ComputerModule> computers;
 
     private PlayerUI playerUI;
