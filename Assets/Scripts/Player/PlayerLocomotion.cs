@@ -6,11 +6,13 @@ using UnityEngine;
 public class PlayerLocomotion : MonoBehaviour
 {
     [Header("Перемещение")]
-    [SerializeField, Range(1, 10)] private float speed = 5f;
-    [SerializeField, Range(1, 50)] private float jumpForce = 15.0f;
-    [SerializeField, Range(-40, -1)] private float terminalVelocity = -10.0f;
-    [SerializeField, Tooltip("Сила притяжения на земле"), Range(-2, 0)] private float minFall = -1.5f;
-    [SerializeField, Range(0.1f, 20)] private float gravity = 9.8f;
+    [SerializeField, Range(1, 10), Tooltip("Скорость перемещения")] private float speed = 5f;
+    [SerializeField, Range(1, 50), Tooltip("Сила прыжка")] private float jumpForce = 15.0f;
+    [SerializeField, Range(-40, -1)]
+    [Tooltip("Ограничение скорости падения. Это требуется, чтобы персонаж," +
+        "падающий с большой высоты не проникал сквозь текстуры.")]
+    private float terminalVelocity = -10.0f;
+    [SerializeField, Range(0.1f, 5), Tooltip("Сила притяжения. g=1 - земная гравитация")] private float gravity = 1f;
 
 
     private CharacterController charController;
@@ -19,6 +21,12 @@ public class PlayerLocomotion : MonoBehaviour
     private bool fall;
     private float fallTimer;
     private bool opportunityToMove;
+    private float minFall = -1.5f;
+
+    /// <summary>
+    /// Этот коэффициент используется, чтобы добиться ощущения "правильной" гравитации при gravity = 1.
+    /// </summary>
+    private const float gravMultiplayer = 9.8f * 5f;
 
     private Transform myTransform;
 
@@ -87,7 +95,7 @@ public class PlayerLocomotion : MonoBehaviour
         {
             if (fall)
             {
-                vertSpeed -= gravity * 5 * Time.deltaTime;
+                vertSpeed -= gravity * gravMultiplayer * Time.deltaTime;
                 if (vertSpeed < terminalVelocity)
                 {
                     vertSpeed = terminalVelocity;

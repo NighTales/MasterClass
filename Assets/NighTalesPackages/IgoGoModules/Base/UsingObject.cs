@@ -8,7 +8,7 @@ using UnityEngine.Events;
 /// </summary>
 public abstract class UsingObject: MonoBehaviour
 {
-    [Tooltip("Отрисовка в редакторе")] public bool debug;
+    [Tooltip("Добавить вспомогательную отрисовку")] public bool debug;
 
     public List<UsingOrigin> Actors
     {
@@ -30,7 +30,9 @@ public abstract class UsingObject: MonoBehaviour
     /// перевести в исходное состояние
     /// </summary>
     public abstract void ToStart();
-
+    /// <summary>
+    /// Уделить этот модуль из всех источникв, с ним работающих
+    /// </summary>
     public void ClearMeFromActors()
     {
         foreach (var item in Actors)
@@ -45,23 +47,18 @@ public abstract class UsingObject: MonoBehaviour
 /// </summary>
 public abstract class UsingOrigin : UsingObject
 {
-    [Tooltip("Объекты, у которых будет вызываться метод USE()")] public List<UsingObject> nextUsingObjects;
+    [Tooltip("Объекты, у которых будет вызываться метод USE()")]
+    public List<UsingObject> nextUsingObjects;
+    
+    private void Awake()
+    {
+        AddThisActorToNextModules();
+    }
+
     /// <summary>
     /// передать сигнал следующим модулям
     /// </summary>
     /// 
-
-    private void Awake()
-    {
-        AddMeToActors();
-    }
-    private void AddMeToActors()
-    {
-        foreach (var item in nextUsingObjects)
-        {
-            item.Actors.Add(this);
-        }
-    }
     public void UseAll()
     {
         for (int i = 0; i < nextUsingObjects.Count; i++)
@@ -74,6 +71,14 @@ public abstract class UsingOrigin : UsingObject
             {
                 Debug.LogError("Элемент " + i + " равен null. Вероятно, была утеряна ссылка. Источник :" + gameObject.name);
             }
+        }
+    }
+
+    private void AddThisActorToNextModules()
+    {
+        foreach (var item in nextUsingObjects)
+        {
+            item.Actors.Add(this);
         }
     }
 }
