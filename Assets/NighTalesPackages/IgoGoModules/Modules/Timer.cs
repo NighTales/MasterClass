@@ -7,20 +7,38 @@ using UnityEngine;
 /// <summary>
 /// когда данный модуль активируется, то запускается обратный отсчёт, после которого он передаёт сигнал следующим модулям
 /// </summary>
+[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
 public class Timer : UsingOrigin
 {
-    [Space(20), Tooltip("Время, через которое сигнал будет передан другим модулям"), Range(0, 3600)] public float time;
-    [Tooltip("Запускать сразу")] public bool active;
-    [Tooltip("")] public bool drawTimerInvoke;
+    [Space(20), Tooltip("Время в секундах, через которое сигнал будет передан другим модулям"), Range(0, 3600)]
+    [SerializeField]
+    private float time;
 
-    public event Action<string> timerChanged;
-    public event Action stopTimerEvent;
+    [SerializeField]
+    [Tooltip("Запускать сразу")]
+    private bool active;
+    
+    [Tooltip("Отрисовывать время")]
+    [SerializeField]
+    private bool useTimerUI;
+
+
+    private event Action<string> timerChanged;
+    private event Action stopTimerEvent;
 
     private float currentTime;
     private string lastTimerString = string.Empty;
 
     private void Start()
     {
+        if(useTimerUI)
+        {
+            TimerUI timerUI = FindObjectOfType<TimerUI>();
+
+            timerChanged += timerUI.DrawTimerValue;
+            stopTimerEvent += timerUI.CloseTimer;
+        }
+
         if(active)
         {
             Use();
@@ -33,10 +51,8 @@ public class Timer : UsingOrigin
             if(currentTime > 0)
             {
                 currentTime -= Time.deltaTime;
-                if(drawTimerInvoke)
-                {
+                if(useTimerUI)
                     DrawTimerInvoke();
-                }
             }
             else
             {
@@ -44,8 +60,9 @@ public class Timer : UsingOrigin
                 active = false;
                 UseAll();
                 currentTime = 0;
-                if (drawTimerInvoke)
+                if(useTimerUI)
                     stopTimerEvent?.Invoke();
+                ToStart();
             }
         }
     }
@@ -69,6 +86,9 @@ public class Timer : UsingOrigin
         }
     }
 
+    /// <summary>
+    /// Запустить таймер
+    /// </summary>
     public override void Use()
     {
         active = true;
