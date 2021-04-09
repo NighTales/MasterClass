@@ -5,15 +5,21 @@ using UnityEngine;
 /// <summary>
 /// Данный класс используется, когда нужно, чтобы все actors сработали перед тем, как сигнал пошёл дальше. Одноразовый модуль!
 /// </summary>
+[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
 public class Bottleneck : UsingOrigin {
 
+    /// <summary>
+    /// Проверить, все ли источники подают сигнал. В случае полной подачи активировать следующие модули
+    /// </summary>
     public override void Use()
     {
-        Invoke("CheckAllActors", Time.deltaTime * 2);       
+        StartCoroutine(CheckAllActors(Time.deltaTime * 2));
     }
 
-    private void CheckAllActors()
+    private IEnumerator CheckAllActors(float delay)
     {
+        yield return new WaitForSeconds(delay);
+
         for (int i = 0; i < Actors.Count; i++)
         {
             if (Actors[i].used)
@@ -26,11 +32,9 @@ public class Bottleneck : UsingOrigin {
         if (Actors.Count == 0)
         {
             UseAll();
-            used = true;
             Destroy(gameObject);
         }
     }
-
 
     public override void ToStart()
     {

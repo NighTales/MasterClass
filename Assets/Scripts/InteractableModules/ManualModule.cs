@@ -14,6 +14,7 @@ public class ManualModule : InteractableItem
     /// </summary>
     public override void Use()
     {
+        used = !used;
         UseAll();
     }
 
@@ -39,6 +40,6 @@ public class ManualModule : InteractableItem
 
     public override void ToStart()
     {
-
+        used = false;
     }
 }
