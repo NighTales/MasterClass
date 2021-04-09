@@ -11,6 +11,7 @@ public class PlayerInfoHolder : MonoBehaviour
 
     private void Start()
     {
+        computers = new List<ComputerModule>();
         playerUI = FindObjectOfType<PlayerUI>();
     }
 
