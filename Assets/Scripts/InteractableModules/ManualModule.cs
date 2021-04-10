@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Позволяет передавать сигнал о действии объектам с помощью PlayerInteraction
@@ -14,6 +12,7 @@ public class ManualModule : InteractableItem
     /// </summary>
     public override void Use()
     {
+        used = !used;
         UseAll();
     }
 
@@ -39,6 +38,6 @@ public class ManualModule : InteractableItem
 
     public override void ToStart()
     {
-
+        used = false;
     }
 }

@@ -1,24 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Зона, при входе в котороую ModuleReactor будет запускать импульс
 /// </summary>
 [RequireComponent(typeof(BoxCollider))]
+[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
 public class LocationReactor : UsingOrigin
 {
     [Space(20)]
     [Tooltip("Реагировать только на вход")] public bool enterOnly;
-    [Tooltip("Уничтожаться после первого срабатывания")] public bool once;
+    [Tooltip("Отключаться после первого срабатывания")] public bool once;
 
     public override void Use()
     {
         UseAll();
-        if(once)
+        used = !used;
+        if (once)
         {
             gameObject.SetActive(false);
-            used = true;
         }
     }
     public override void ToStart()
