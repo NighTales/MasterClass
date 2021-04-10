@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ComputerModule : InteractableItem
 {
     [Header("Настройки")]
+    public string login;
     public string password;
     [Range(1, 10)]
     [SerializeField]
@@ -17,6 +18,8 @@ public class ComputerModule : InteractableItem
     private Transform playerLookPoint;
 
     [Header("UI")]
+    [SerializeField]
+    private Text loginText;
     [SerializeField]
     private Text passwordText;
     [SerializeField]
@@ -85,7 +88,8 @@ public class ComputerModule : InteractableItem
         playerLokomotion = FindObjectOfType<PlayerLocomotion>();
         playerLook = FindObjectOfType<PlayerLook>();
         playerUI = FindObjectOfType<PlayerUI>();
-        attemtsCountText.text = "Попыток " + numberOfAttempts; 
+        attemtsCountText.text = "Попыток " + numberOfAttempts;
+        loginText.text = "Добро пожаловать, " + login;
     }
 
     private void OnDrawGizmos()

@@ -11,12 +11,15 @@ public class PlayerEnegyControl : MonoBehaviour
     [SerializeField, Range(0, 1)] private float interationDischarge;
     [SerializeField, Range(0, 1)] private float dangersDischarge;
     [SerializeField, Range(0, 1)] private float constantDischarge;
+    [SerializeField] private Transform spawnPoint;
+
 
     private PlayerUI playerUI;
     private PlayerLocomotion playerLocomotion;
     private PlayerInteraction playerInteraction;
 
     private DangerPoint buferDangerPoint;
+    private EnergyPoint buferEnergyPoint;
 
     private void Start()
     {
@@ -63,6 +66,10 @@ public class PlayerEnegyControl : MonoBehaviour
     public void SpendEnergy(float value)
     {
         playerUI.energySlider.value -= value;
+        if(playerUI.energySlider.value <= 0)
+        {
+            Death();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -72,6 +79,15 @@ public class PlayerEnegyControl : MonoBehaviour
             if(other.TryGetComponent<DangerPoint>(out buferDangerPoint))
             {
                 playerUI.SetEffect(buferDangerPoint.effectSprite);
+            }
+        }
+        else if(other.CompareTag("EnergyPoint") && playerUI.energySlider.value > 0)
+        {
+            if(other.TryGetComponent<EnergyPoint>(out buferEnergyPoint))
+            {
+                buferEnergyPoint.LaunchParticles(transform, false);
+                spawnPoint = buferEnergyPoint.spawnPoint;
+                StartCoroutine(EnergyToFoolCoroutine());
             }
         }
     }
@@ -89,6 +105,23 @@ public class PlayerEnegyControl : MonoBehaviour
         if(dangersDischarge > 0 && other.CompareTag("Danger"))
         {
             SpendEnergy(dangersDischarge * buferDangerPoint.damage * Time.deltaTime);
+        }
+    }
+
+    private void Death()
+    {
+        playerLocomotion.TeleportToPoint(spawnPoint);
+        playerUI.energySlider.value = maxEnergyValue;
+        buferEnergyPoint?.LaunchParticles(transform, true);
+
+    }
+
+    private IEnumerator EnergyToFoolCoroutine()
+    {
+        while(playerUI.energySlider.value < maxEnergyValue)
+        {
+            playerUI.energySlider.value += Time.deltaTime * 5;
+            yield return null;
         }
     }
 }

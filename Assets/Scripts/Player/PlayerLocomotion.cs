@@ -63,21 +63,12 @@ public class PlayerLocomotion : MonoBehaviour
     {
         StartCoroutine(SmoothMoveToPointCoroutine(point));
     }
-    private IEnumerator SmoothMoveToPointCoroutine(Transform point)
+    public void TeleportToPoint(Transform point)
     {
-        float t = 0;
-        Vector3 startPos = transform.position;
-        Quaternion startRot = transform.rotation;
-
-        while(t < 1)
-        {
-            t += Time.deltaTime * 2;
-            transform.position = Vector3.Lerp(startPos, point.position, t);
-            transform.rotation = Quaternion.Lerp(startRot, point.rotation, t);
-            yield return null;
-        }
-        transform.position = point.position;
-        transform.rotation = point.rotation;
+        charController.enabled = false;
+        myTransform.position = point.position;
+        myTransform.rotation = point.rotation;
+        charController.enabled = true;
     }
 
     private void Jump()
@@ -134,5 +125,22 @@ public class PlayerLocomotion : MonoBehaviour
         moveVector.y = vertSpeed;
         moveVector *= Time.deltaTime;
         charController.Move(moveVector);
+    }
+
+    private IEnumerator SmoothMoveToPointCoroutine(Transform point)
+    {
+        float t = 0;
+        Vector3 startPos = transform.position;
+        Quaternion startRot = transform.rotation;
+
+        while (t < 1)
+        {
+            t += Time.deltaTime * 2;
+            transform.position = Vector3.Lerp(startPos, point.position, t);
+            transform.rotation = Quaternion.Lerp(startRot, point.rotation, t);
+            yield return null;
+        }
+        transform.position = point.position;
+        transform.rotation = point.rotation;
     }
 }
