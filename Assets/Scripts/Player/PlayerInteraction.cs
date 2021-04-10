@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerInteraction : MonoBehaviour
 {
+    public event Action spendEnergyToInteractEvent;
+
     [SerializeField, Tooltip("На какие слои не реагировать")]
     private LayerMask ignoreMask;
     [SerializeField, Range(1,3), Tooltip("На каком расстоянии можно взаимодействовать")]
@@ -55,7 +58,11 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(Input.GetKeyDown(interactionButton))
         {
-            interactableItem?.Use();
+            if(interactableItem != null)
+            {
+                interactableItem.Use();
+                spendEnergyToInteractEvent?.Invoke();
+            }
         }
     }
 }

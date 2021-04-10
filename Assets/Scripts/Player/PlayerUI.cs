@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
+    public Slider energySlider;
     [SerializeField] private Text text;
     [SerializeField] private Image pointerImage;
     [SerializeField] private Sprite defaultSprite;

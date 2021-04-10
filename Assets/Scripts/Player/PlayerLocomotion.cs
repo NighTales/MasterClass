@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(CharacterController))]
+[HelpURL("https://docs.google.com/document/d/1RHcBnAu17RNpBXFCBjciXxfc9zIFLied7kyB2Yie18o/edit?usp=sharing")]
 public class PlayerLocomotion : MonoBehaviour
 {
+    public event Action spendEnergyToMoveEvent;
+    public event Action spendEnergyToJumpEvent;
+
     [Header("Перемещение")]
     [SerializeField, Range(1, 10), Tooltip("Скорость перемещения")] private float speed = 5f;
     [SerializeField, Range(1, 50), Tooltip("Сила прыжка")] private float jumpForce = 15.0f;
@@ -13,7 +18,6 @@ public class PlayerLocomotion : MonoBehaviour
         "падающий с большой высоты не проникал сквозь текстуры.")]
     private float terminalVelocity = -10.0f;
     [SerializeField, Range(0.1f, 5), Tooltip("Сила притяжения. g=1 - земная гравитация")] private float gravity = 1f;
-
 
     private CharacterController charController;
     private Vector3 moveVector;
@@ -85,6 +89,7 @@ public class PlayerLocomotion : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {
                 vertSpeed = jumpForce;
+                spendEnergyToJumpEvent?.Invoke();
             }
             else
             {
@@ -117,6 +122,12 @@ public class PlayerLocomotion : MonoBehaviour
     {
         float deltaX = Input.GetAxis("Horizontal");
         float deltaZ = Input.GetAxis("Vertical");
+
+        if(deltaX != 0 || deltaZ != 0)
+        {
+            spendEnergyToMoveEvent?.Invoke();
+        }
+
         moveVector = myTransform.forward * deltaZ + myTransform.right * deltaX;
         moveVector.y = 0;
         moveVector = moveVector.normalized * speed;
