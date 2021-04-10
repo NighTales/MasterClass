@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Управление интерфейсом
+/// </summary>
 public class PlayerUI : MonoBehaviour
 {
     public Slider energySlider;
     [SerializeField] private Text text;
     [SerializeField] private Image pointerImage;
-    [SerializeField] private Sprite defaultSprite;
+    [SerializeField] private Sprite defaultPointerSprite;
     [SerializeField] private GameObject passwordPanel;
     [SerializeField] private Text passwordText;
+    [SerializeField] private Image effectImage;
+    [SerializeField] private Sprite defaultEffectSprite;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +27,7 @@ public class PlayerUI : MonoBehaviour
     public void ClearPointer()
     {
         text.text = string.Empty;
-        pointerImage.sprite = defaultSprite;
+        pointerImage.sprite = defaultPointerSprite;
     }
 
     public void SetPointerVisible(bool value)
@@ -44,5 +49,14 @@ public class PlayerUI : MonoBehaviour
     public void ClearPassword()
     {
         passwordPanel.SetActive(false);
+    }
+
+    public void SetEffect(Sprite sprite)
+    {
+        effectImage.sprite = sprite;
+    }
+    public void ReturnEffectToDefault()
+    {
+        effectImage.sprite = defaultEffectSprite;
     }
 }

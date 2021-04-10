@@ -16,6 +16,8 @@ public class PlayerEnegyControl : MonoBehaviour
     private PlayerLocomotion playerLocomotion;
     private PlayerInteraction playerInteraction;
 
+    private DangerPoint buferDangerPoint;
+
     private void Start()
     {
         playerUI = FindObjectOfType<PlayerUI>();
@@ -63,11 +65,30 @@ public class PlayerEnegyControl : MonoBehaviour
         playerUI.energySlider.value -= value;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(dangersDischarge > 0 && other.CompareTag("Danger"))
+        {
+            if(other.TryGetComponent<DangerPoint>(out buferDangerPoint))
+            {
+                playerUI.SetEffect(buferDangerPoint.effectSprite);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Danger"))
+        {
+            playerUI.ReturnEffectToDefault();
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if(dangersDischarge > 0 && other.CompareTag("Danger"))
         {
-            SpendEnergy(dangersDischarge * Time.deltaTime);
+            SpendEnergy(dangersDischarge * buferDangerPoint.damage * Time.deltaTime);
         }
     }
 }
