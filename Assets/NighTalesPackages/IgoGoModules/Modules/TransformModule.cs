@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 /// <summary>
 /// Данный модуль используется для движения объекта между двумя точками
@@ -36,6 +33,7 @@ public class TransformModule : UsingObject
     private Platform platform;
     private Rigidbody rb;
     private Vector3 start;
+    private Vector3 target;
     private bool activate = false;
     private float time = 0f;
     private float position = 0f;
@@ -46,6 +44,7 @@ public class TransformModule : UsingObject
         if(usePhysics)
             rb = GetComponent<Rigidbody>();
         start = transform.position;
+        target = transform.position + transform.forward * end.z + transform.right * end.x + transform.up * end.y;
     }
 
     [ContextMenu("Test Start Movement")]
@@ -78,7 +77,7 @@ public class TransformModule : UsingObject
     private void PerformTransform(float position)
     {
         var curvePosition = accelCurve.Evaluate(position);
-        var pos = Vector3.Lerp(start, start + end, curvePosition);
+        var pos = Vector3.Lerp(start, target, curvePosition);
         Vector3 deltaPosition = pos - transform.position;
         if (Application.isEditor && !Application.isPlaying)
             transform.position = pos;
@@ -122,7 +121,7 @@ public class TransformModule : UsingObject
         if(debug)
         {
             Gizmos.color = Color.cyan;
-            Vector3 targetPos = transform.position + end;
+            Vector3 targetPos = transform.position + transform.forward * end.z + transform.right * end.x + transform.up * end.y;
             Gizmos.DrawWireCube(targetPos, transform.localScale);
             Gizmos.DrawLine(transform.position, targetPos);
 
