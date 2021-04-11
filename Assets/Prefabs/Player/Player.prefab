@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  jumpForce: 15
+  jumpForce: 10
   terminalVelocity: -10
   gravity: 1
 --- !u!114 &1530491481243161952
@@ -196,7 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 6078940419419532634}
   camBufer: {fileID: 1010457539141896640}
-  sensitivityHor: 9
-  sensitivityVert: 9
+  sensitivityHor: 1
+  sensitivityVert: 1
   minimumVert: -45
   maximumVert: 45

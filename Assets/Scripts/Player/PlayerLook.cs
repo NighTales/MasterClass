@@ -7,15 +7,16 @@ public class PlayerLook : MonoBehaviour
     [Header("Обзор")]
     [SerializeField, Tooltip("Объект - камера")] private Transform cam;
     [SerializeField, Tooltip("Объект - пустышка, в которой находится камера")] private Transform camBufer;
-    [SerializeField, Range(1, 20), Tooltip("Чувствительность камеры по горизонтали")]
-    private float sensitivityHor = 9.0f;
-    [SerializeField, Range(1, 20), Tooltip("Чувствительность камеры по вертикали")]
-    private float sensitivityVert = 9.0f;
+    [SerializeField, Range(0, 2), Tooltip("Чувствительность камеры по горизонтали")]
+    private float sensitivityHor = 0.5f;
+    [SerializeField, Range(0, 2), Tooltip("Чувствительность камеры по вертикали")]
+    private float sensitivityVert = 0.5f;
     [SerializeField, Tooltip("Ограничение угла камеры снизу"), Range(-89, 0)] private float minimumVert = -45.0f;
     [SerializeField, Tooltip("Ограничение угла камеры сверху"), Range(0, 89)] private float maximumVert = 45.0f;
 
     private float _rotationX = 0;
     private bool opportunityToView;
+    private const float multiplicator = 100;
 
     private void Start()
     {
@@ -32,14 +33,27 @@ public class PlayerLook : MonoBehaviour
 
     private void Rotate()
     {
-        _rotationX -= Input.GetAxis("Mouse Y") * sensitivityVert;
+        _rotationX -= Input.GetAxis("Mouse Y") * sensitivityVert * Time.deltaTime * multiplicator;
         _rotationX = Mathf.Clamp(_rotationX, minimumVert, maximumVert);
-        float delta = Input.GetAxis("Mouse X") * sensitivityHor;
+        float delta = Input.GetAxis("Mouse X") * sensitivityHor * Time.deltaTime * multiplicator;
         float rotationY = transform.localEulerAngles.y + delta;
         transform.localEulerAngles = new Vector3(0, rotationY, 0);
         cam.localEulerAngles = new Vector3(_rotationX, 0, 0);
     }
 
+    public void SetCursorVisible(bool value)
+    {
+        if(value)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else if(opportunityToView)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
     public void ToMenuState(Transform lookPoint)
     {
         _rotationX = 0;
@@ -76,9 +90,7 @@ public class PlayerLook : MonoBehaviour
     private IEnumerator SetOpportunityToViewAfterDelay(float delayTime, bool state)
     {
         yield return new WaitForSeconds(delayTime);
-
-        Cursor.lockState = state? CursorLockMode.Locked : CursorLockMode.None;
-        Cursor.visible = !state;
         opportunityToView = state;
+        SetCursorVisible(!state);
     }
 }

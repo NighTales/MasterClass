@@ -48,20 +48,29 @@ public class PlayerEnegyControl : MonoBehaviour
 
     private void Subscribe()
     {
-        playerLocomotion.spendEnergyToMoveEvent += () => SpendEnergy(Time.deltaTime * moveDischarge);
-        playerLocomotion.spendEnergyToJumpEvent += () => SpendEnergy(jumpDischarge);
-        playerInteraction.spendEnergyToInteractEvent += () => SpendEnergy(interationDischarge);
+        playerLocomotion.spendEnergyToMoveEvent += SpendEnergyToMove;
+        playerLocomotion.spendEnergyToJumpEvent += SpendEnergyToJump;
+        playerInteraction.spendEnergyToInteractEvent += SpendEnergyToInteraction;
         playerUI.foolAlphaDeathPanelEvent += PreparePlayer;
         playerUI.noAlphaDeathPanelEvent += UnblockPlayer;
 
     }
     private void Unsubscribe()
     {
-        playerLocomotion.spendEnergyToMoveEvent -= () => SpendEnergy(Time.deltaTime * moveDischarge);
-        playerLocomotion.spendEnergyToJumpEvent -= () => SpendEnergy(jumpDischarge);
-        playerInteraction.spendEnergyToInteractEvent -= () => SpendEnergy(interationDischarge);
-        playerUI.foolAlphaDeathPanelEvent -= PreparePlayer;
-        playerUI.noAlphaDeathPanelEvent -= UnblockPlayer;
+        if(playerInteraction != null)
+        {
+            playerLocomotion.spendEnergyToMoveEvent -= SpendEnergyToMove;
+            playerLocomotion.spendEnergyToJumpEvent -= SpendEnergyToJump;
+        }
+        if(playerInteraction != null)
+        {
+            playerInteraction.spendEnergyToInteractEvent -= SpendEnergyToInteraction;
+        }
+        if(playerUI != null)
+        {
+            playerUI.foolAlphaDeathPanelEvent -= PreparePlayer;
+            playerUI.noAlphaDeathPanelEvent -= UnblockPlayer;
+        }
     }
 
     /// <summary>
@@ -128,6 +137,19 @@ public class PlayerEnegyControl : MonoBehaviour
     {
         playerLocomotion.SetBlockValueToPlayer(false);
         buferEnergyPoint?.LaunchParticles(transform, true);
+    }
+
+    private void SpendEnergyToMove()
+    {
+        SpendEnergy(Time.deltaTime * moveDischarge);
+    }
+    private void SpendEnergyToJump()
+    {
+        SpendEnergy(jumpDischarge);
+    }
+    private void SpendEnergyToInteraction()
+    {
+        SpendEnergy(interationDischarge);
     }
 
     private IEnumerator EnergyToFoolCoroutine()

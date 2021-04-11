@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Управление интерфейсом
@@ -18,9 +19,13 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Image effectImage;
     [SerializeField] private Sprite defaultEffectSprite;
     [SerializeField] private Image deathPanel;
+    [SerializeField] private GameObject mainMenu;
 
     public event Action foolAlphaDeathPanelEvent;
     public event Action noAlphaDeathPanelEvent;
+
+    private PlayerLook playerLook;
+    private AsyncOperation sceneLoading;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +34,20 @@ public class PlayerUI : MonoBehaviour
         ClearPassword();
         deathPanel.color = new Color(deathPanel.color.r, deathPanel.color.g, deathPanel.color.b, deathPanel.color.a);
         DeathPanelToZeroAlpha();
+        mainMenu.SetActive(!mainMenu.activeSelf);
+        Time.timeScale = mainMenu.activeSelf ? 0 : 1;
+        playerLook = FindObjectOfType<PlayerLook>();
+        StartCoroutine(PrepareSceneCoroutine());
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            mainMenu.SetActive(!mainMenu.activeSelf);
+            Time.timeScale = mainMenu.activeSelf ? 0 : 1;
+            playerLook.SetCursorVisible(mainMenu.activeSelf);
+        }
     }
 
     public void ClearPointer()
@@ -76,6 +95,18 @@ public class PlayerUI : MonoBehaviour
         StartCoroutine(DeathPanelToZeroCoroutine());
     }
 
+    public void OnExitClick()
+    {
+        #if UNITY_EDITOR
+        Debug.Log("Выход из игры");
+        #endif
+        Application.Quit();
+    }
+    public void OnRestartClick()
+    {
+        sceneLoading.allowSceneActivation = true;
+    }
+
     private IEnumerator DeathPanelToFoolAlphaCoroutine()
     {
         Color noAlphaColor = deathPanel.color;
@@ -120,5 +151,14 @@ public class PlayerUI : MonoBehaviour
         deathPanel.color = noAlphaColor;
         ReturnEffectToDefault();
         noAlphaDeathPanelEvent?.Invoke();
+    }
+    private IEnumerator PrepareSceneCoroutine()
+    {
+        sceneLoading = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+        sceneLoading.allowSceneActivation = false;
+        while (!sceneLoading.isDone)
+        {
+            yield return null;
+        }
     }
 }
