@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 6078940419419532634}
   - component: {fileID: 6078940419419532635}
   - component: {fileID: 6078940419419532636}
+  - component: {fileID: 1880349955}
   m_Layer: 2
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -87,7 +88,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 100
+  far clip plane: 1000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -114,6 +115,23 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6078940419419532637}
   m_Enabled: 1
+--- !u!114 &1880349955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6078940419419532637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34aea234f1cfc4e4689e7393484cf0fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoreMask:
+    serializedVersion: 2
+    m_Bits: 4
+  interactionDistance: 3
+  interactionButton: 101
 --- !u!1 &6078940420239584934
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,6 +144,9 @@ GameObject:
   - component: {fileID: 6078940420239584932}
   - component: {fileID: 6078940420239584933}
   - component: {fileID: 1530491481243161952}
+  - component: {fileID: 459454448}
+  - component: {fileID: 459454449}
+  - component: {fileID: 459454450}
   m_Layer: 2
   m_Name: Player
   m_TagString: Untagged
@@ -198,5 +219,48 @@ MonoBehaviour:
   camBufer: {fileID: 1010457539141896640}
   sensitivityHor: 1
   sensitivityVert: 1
-  minimumVert: -45
-  maximumVert: 45
+  minimumVert: -89
+  maximumVert: 89
+--- !u!114 &459454448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6078940420239584934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ead9a32c5dac0d4a97b057ea46507ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &459454449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6078940420239584934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20ada087c7da8ca4db5e8a19d3f4d6b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &459454450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6078940420239584934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d3451f4024f2a4e92e80548e3f107c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxEnergyValue: 100
+  moveDischarge: 0
+  jumpDischarge: 0
+  interationDischarge: 0
+  dangersDischarge: 1
+  constantDischarge: 0
+  spawnPoint: {fileID: 0}
