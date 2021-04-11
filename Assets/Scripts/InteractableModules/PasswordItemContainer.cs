@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PasswordItemContainer : InteractableItem
 {
-    [SerializeField] private Text text;
+    [SerializeField] private Text passwordText;
+    [SerializeField] private Text userText;
     [SerializeField] private ComputerModule computer;
 
     private PlayerInfoHolder playerInfoHolder;
@@ -13,9 +12,10 @@ public class PasswordItemContainer : InteractableItem
 
     private void Start()
     {
+        userText.text = "Карта сотрудника\n\rLogIn: " + computer.login;
         playerInfoHolder = FindObjectOfType<PlayerInfoHolder>();
         playerUI = FindObjectOfType<PlayerUI>();
-        text.text = computer.password;
+        passwordText.text = computer.password;
     }
 
     public override void ToStart()
