@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Interactable
   - Danger
+  - EnergyPoint
   layers:
   - Default
   - TransparentFX

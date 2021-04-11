@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -11.8, y: -0.16}
+  m_AnchoredPosition: {x: -11.800003, y: -0.16000366}
   m_SizeDelta: {x: -23.59, y: -23.63}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &45822016
@@ -5507,10 +5507,12 @@ MonoBehaviour:
   message: "\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C
     \u043A\u043E\u043C\u043F\u044C\u044E\u0442\u0435\u0440"
   messageSprite: {fileID: 21300000, guid: 1fdbff7b3e0de574892e45d1afa6012c, type: 3}
+  login: "\u0414\u0436\u0430\u0439\u0440\u0430"
   password: 123
   numberOfAttempts: 3
   playerPoint: {fileID: 8419615293743256165}
   playerLookPoint: {fileID: 8419615295140273513}
+  loginText: {fileID: 116609767}
   passwordText: {fileID: 2145021976}
   passwordPack: {fileID: 2083217324}
   commandPack: {fileID: 1628584002}
