@@ -1,20 +1,18 @@
 using UnityEngine;
 
+public enum LoopType
+{
+    Once,
+    PingPong,
+    Repeat
+}
+
 /// <summary>
 /// Данный модуль используется для движения объекта между двумя точками
 /// </summary>
-[RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(Rigidbody))]
 [HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
 public class TransformModule : UsingObject
 {
-    private enum LoopType
-    {
-        Once,
-        PingPong,
-        Repeat
-    }
-
     [SerializeField]
     [Tooltip("Тип перемещения:" +
         "Once - одно действие=одно перемещение. " +
@@ -26,14 +24,8 @@ public class TransformModule : UsingObject
     [SerializeField, Tooltip("График изменения скорости")] private AnimationCurve accelCurve;
     [SerializeField, Tooltip("Смещение целевой точки относительно стартовой")] private Vector3 end = Vector3.forward;
 
-    [Tooltip("Использовать ли физическое перемещение. Если вы будите двигать пол, оно будет правильней просчитывать" +
-        "движение объектов вместе с ним. Но тратит больше ресурсов.")]
-    private bool usePhysics = false;
-
-    private Platform platform;
-    private Rigidbody rb;
-    private Vector3 start;
-    private Vector3 target;
+    private Vector3 localStart;
+    private Vector3 localTarget;
     private bool activate = false;
     private float time = 0f;
     private float position = 0f;
@@ -41,13 +33,10 @@ public class TransformModule : UsingObject
 
     private void Awake()
     {
-        if(usePhysics)
-            rb = GetComponent<Rigidbody>();
-        start = transform.position;
-        target = transform.position + transform.forward * end.z + transform.right * end.x + transform.up * end.y;
+        localStart = transform.localPosition;
+        localTarget = transform.localPosition + end;
     }
 
-    [ContextMenu("Test Start Movement")]
     private void StartMovement()
     {
         activate = true;
@@ -77,22 +66,8 @@ public class TransformModule : UsingObject
     private void PerformTransform(float position)
     {
         var curvePosition = accelCurve.Evaluate(position);
-        var pos = Vector3.Lerp(start, target, curvePosition);
-        Vector3 deltaPosition = pos - transform.position;
-        if (Application.isEditor && !Application.isPlaying)
-            transform.position = pos;
-
-        if (usePhysics)
-        {
-            rb.MovePosition(pos);
-        }
-        else
-        {
-            transform.position = pos;
-        }
-
-        if (platform != null)
-            platform.MoveCharacterController(deltaPosition);
+        var pos = Vector3.Lerp(localStart, localTarget, curvePosition);
+        transform.localPosition = pos;
     }
 
     void LoopPingPong()
