@@ -60,7 +60,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             if(interactableItem != null)
             {
-                interactableItem.Use();
+                interactableItem?.Use();
                 spendEnergyToInteractEvent?.Invoke();
             }
         }
