@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 /// <summary>
 /// Управление интерфейсом
@@ -16,12 +17,18 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Text passwordText;
     [SerializeField] private Image effectImage;
     [SerializeField] private Sprite defaultEffectSprite;
+    [SerializeField] private Image deathPanel;
+
+    public event Action foolAlphaDeathPanelEvent;
+    public event Action noAlphaDeathPanelEvent;
 
     // Start is called before the first frame update
     void Start()
     {
         ClearPointer();
         ClearPassword();
+        deathPanel.color = new Color(deathPanel.color.r, deathPanel.color.g, deathPanel.color.b, deathPanel.color.a);
+        DeathPanelToZeroAlpha();
     }
 
     public void ClearPointer()
@@ -58,5 +65,60 @@ public class PlayerUI : MonoBehaviour
     public void ReturnEffectToDefault()
     {
         effectImage.sprite = defaultEffectSprite;
+    }
+
+    public void DeathPanelToFoolAlpha()
+    {
+        StartCoroutine(DeathPanelToFoolAlphaCoroutine());
+    }
+    public void DeathPanelToZeroAlpha()
+    {
+        StartCoroutine(DeathPanelToZeroCoroutine());
+    }
+
+    private IEnumerator DeathPanelToFoolAlphaCoroutine()
+    {
+        Color noAlphaColor = deathPanel.color;
+        Color foolAlphaColor = deathPanel.color;
+        noAlphaColor.a = 0;
+        foolAlphaColor.a = 1;
+        float t = 0;
+        while (t < 1)
+        {
+            t += Time.deltaTime;
+            deathPanel.color = Color.Lerp(noAlphaColor, foolAlphaColor, t);
+            yield return null;
+        }
+
+        deathPanel.color = foolAlphaColor;
+
+        foolAlphaDeathPanelEvent?.Invoke();
+
+        while (t > 0)
+        {
+            t -= Time.deltaTime;
+            deathPanel.color = Color.Lerp(noAlphaColor, foolAlphaColor, t);
+            yield return null;
+        }
+    }
+    private IEnumerator DeathPanelToZeroCoroutine()
+    {
+        Color noAlphaColor = deathPanel.color;
+        Color foolAlphaColor = deathPanel.color;
+        noAlphaColor.a = 0;
+        foolAlphaColor.a = 1;
+        float t = 1;
+        deathPanel.color = foolAlphaColor;
+
+        while (t > 0)
+        {
+            t -= Time.deltaTime;
+            deathPanel.color = Color.Lerp(noAlphaColor, foolAlphaColor, t);
+            yield return null;
+        }
+
+        deathPanel.color = noAlphaColor;
+        ReturnEffectToDefault();
+        noAlphaDeathPanelEvent?.Invoke();
     }
 }

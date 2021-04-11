@@ -63,7 +63,17 @@ public class PlayerLocomotion : MonoBehaviour
     {
         StartCoroutine(SmoothMoveToPointCoroutine(point));
     }
+
+    public void SetBlockValueToPlayer(bool value)
+    {
+        charController.enabled = !value;
+    }
     public void TeleportToPoint(Transform point)
+    {
+        myTransform.position = point.position;
+        myTransform.rotation = point.rotation;
+    }
+    public void FastTeleportToPoint(Transform point)
     {
         charController.enabled = false;
         myTransform.position = point.position;

@@ -44,15 +44,15 @@ public class PlayerLook : MonoBehaviour
     {
         _rotationX = 0;
         StartCoroutine(SetOpportunityToViewAfterDelay(0, false));
-        StartCoroutine(SmootMoveCamCoroutine(lookPoint.position, lookPoint.rotation));
+        StartCoroutine(SmootMoveCamCoroutine(lookPoint));
     }
     public void ToDefaultState()
     {
-        StartCoroutine(SmootMoveCamCoroutine(camBufer.position, camBufer.rotation));
+        StartCoroutine(SmootMoveCamCoroutine(camBufer));
         StartCoroutine(SetOpportunityToViewAfterDelay(1, true));
     }
 
-    private IEnumerator SmootMoveCamCoroutine(Vector3 targetPos, Quaternion targetRot)
+    private IEnumerator SmootMoveCamCoroutine(Transform target)
     {
         Vector3 startPos = cam.position;
         Quaternion startRot = cam.rotation;
@@ -63,12 +63,14 @@ public class PlayerLook : MonoBehaviour
 
             t += Time.deltaTime;
 
-            cam.position = Vector3.Lerp(startPos, targetPos, t);
-            cam.rotation = Quaternion.Lerp(startRot, targetRot, t);
+            cam.position = Vector3.Lerp(startPos, target.position, t);
+            cam.rotation = Quaternion.Lerp(startRot, target.rotation, t);
         }
 
-        cam.position = targetPos;
-        cam.rotation = targetRot;
+        yield return null;
+
+        cam.position = target.position;
+        cam.rotation = target.rotation;
     }
 
     private IEnumerator SetOpportunityToViewAfterDelay(float delayTime, bool state)

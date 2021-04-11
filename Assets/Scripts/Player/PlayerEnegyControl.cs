@@ -51,12 +51,17 @@ public class PlayerEnegyControl : MonoBehaviour
         playerLocomotion.spendEnergyToMoveEvent += () => SpendEnergy(Time.deltaTime * moveDischarge);
         playerLocomotion.spendEnergyToJumpEvent += () => SpendEnergy(jumpDischarge);
         playerInteraction.spendEnergyToInteractEvent += () => SpendEnergy(interationDischarge);
+        playerUI.foolAlphaDeathPanelEvent += PreparePlayer;
+        playerUI.noAlphaDeathPanelEvent += UnblockPlayer;
+
     }
     private void Unsubscribe()
     {
         playerLocomotion.spendEnergyToMoveEvent -= () => SpendEnergy(Time.deltaTime * moveDischarge);
         playerLocomotion.spendEnergyToJumpEvent -= () => SpendEnergy(jumpDischarge);
         playerInteraction.spendEnergyToInteractEvent -= () => SpendEnergy(interationDischarge);
+        playerUI.foolAlphaDeathPanelEvent -= PreparePlayer;
+        playerUI.noAlphaDeathPanelEvent -= UnblockPlayer;
     }
 
     /// <summary>
@@ -110,10 +115,19 @@ public class PlayerEnegyControl : MonoBehaviour
 
     private void Death()
     {
-        playerLocomotion.TeleportToPoint(spawnPoint);
-        playerUI.energySlider.value = maxEnergyValue;
-        buferEnergyPoint?.LaunchParticles(transform, true);
+        playerLocomotion.SetBlockValueToPlayer(true);
+        playerUI.DeathPanelToFoolAlpha();
+    }
 
+    private void PreparePlayer()
+    {
+        playerLocomotion.FastTeleportToPoint(spawnPoint);
+        playerUI.energySlider.value = maxEnergyValue;
+    }
+    private void UnblockPlayer()
+    {
+        playerLocomotion.SetBlockValueToPlayer(false);
+        buferEnergyPoint?.LaunchParticles(transform, true);
     }
 
     private IEnumerator EnergyToFoolCoroutine()

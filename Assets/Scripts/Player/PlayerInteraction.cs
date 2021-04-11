@@ -9,8 +9,8 @@ public class PlayerInteraction : MonoBehaviour
 
     [SerializeField, Tooltip("На какие слои не реагировать")]
     private LayerMask ignoreMask;
-    [SerializeField, Range(1,3), Tooltip("На каком расстоянии можно взаимодействовать")]
-    private float interactionDistance = 1;
+    [SerializeField, Range(1,5), Tooltip("На каком расстоянии можно взаимодействовать")]
+    private float interactionDistance = 5;
     [SerializeField, Tooltip("Какую кнопку использовать для взаимодействия")]
     private KeyCode interactionButton = KeyCode.E;
 
