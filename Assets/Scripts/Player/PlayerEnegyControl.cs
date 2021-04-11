@@ -18,6 +18,7 @@ public class PlayerEnegyControl : MonoBehaviour
     private PlayerLocomotion playerLocomotion;
     private PlayerInteraction playerInteraction;
 
+    private Collider colliderBufer;
     private DangerPoint buferDangerPoint;
     private EnergyPoint buferEnergyPoint;
 
@@ -90,6 +91,7 @@ public class PlayerEnegyControl : MonoBehaviour
     {
         if(dangersDischarge > 0 && other.CompareTag("Danger"))
         {
+            colliderBufer = other;
             if(other.TryGetComponent<DangerPoint>(out buferDangerPoint))
             {
                 playerUI.SetEffect(buferDangerPoint.effectSprite);
@@ -108,7 +110,7 @@ public class PlayerEnegyControl : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Danger"))
+        if (other == colliderBufer)
         {
             playerUI.ReturnEffectToDefault();
         }
@@ -116,7 +118,7 @@ public class PlayerEnegyControl : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(dangersDischarge > 0 && other.CompareTag("Danger"))
+        if(dangersDischarge > 0 && other == colliderBufer && other.CompareTag("Danger"))
         {
             SpendEnergy(dangersDischarge * buferDangerPoint.damage * Time.deltaTime);
         }
@@ -126,6 +128,7 @@ public class PlayerEnegyControl : MonoBehaviour
     {
         playerLocomotion.SetBlockValueToPlayer(true);
         playerUI.DeathPanelToFoolAlpha();
+        playerUI.ReturnEffectToDefault();
     }
 
     private void PreparePlayer()

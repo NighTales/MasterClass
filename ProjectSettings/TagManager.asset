@@ -7,6 +7,7 @@ TagManager:
   - Interactable
   - Danger
   - EnergyPoint
+  - TransformFixator
   layers:
   - Default
   - TransparentFX

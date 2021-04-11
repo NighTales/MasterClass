@@ -20,14 +20,19 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Sprite defaultEffectSprite;
     [SerializeField] private Image deathPanel;
     [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject taskPanel;
+    [SerializeField] private Text taskText;
+    [SerializeField] private GameObject finalPanel;
+    [SerializeField] private Image finalIcon;
+    [SerializeField] private Text finalText;
 
     public event Action foolAlphaDeathPanelEvent;
     public event Action noAlphaDeathPanelEvent;
 
+    private bool endGame = false;
     private PlayerLook playerLook;
     private AsyncOperation sceneLoading;
 
-    // Start is called before the first frame update
     void Start()
     {
         ClearPointer();
@@ -38,15 +43,21 @@ public class PlayerUI : MonoBehaviour
         Time.timeScale = mainMenu.activeSelf ? 0 : 1;
         playerLook = FindObjectOfType<PlayerLook>();
         StartCoroutine(PrepareSceneCoroutine());
+        taskPanel.SetActive(false);
+        finalPanel.SetActive(false);
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape) && !endGame)
         {
             mainMenu.SetActive(!mainMenu.activeSelf);
             Time.timeScale = mainMenu.activeSelf ? 0 : 1;
             playerLook.SetCursorVisible(mainMenu.activeSelf);
+            if (mainMenu.activeSelf)
+            {
+                SetTask(taskText.text);
+            }
         }
     }
 
@@ -107,6 +118,47 @@ public class PlayerUI : MonoBehaviour
         sceneLoading.allowSceneActivation = true;
     }
 
+    public void SetTask(string taskString)
+    {
+        taskPanel.SetActive(true);
+        taskText.text = taskString;
+        StartCoroutine(ViewTaskCoroutine());
+    }
+
+    public void SetFinal(Sprite icon, string text)
+    {
+        StartCoroutine(FinalCoroutine(icon, text));
+    }
+
+    private IEnumerator FinalCoroutine(Sprite finalSprite, string text)
+    {
+        Color noAlphaColor = deathPanel.color;
+        Color foolAlphaColor = deathPanel.color;
+        noAlphaColor.a = 0;
+        foolAlphaColor.a = 1;
+        float t = 0;
+        while (t < 1)
+        {
+            t += Time.deltaTime;
+            deathPanel.color = Color.Lerp(noAlphaColor, foolAlphaColor, t);
+            yield return null;
+        }
+
+        deathPanel.color = foolAlphaColor;
+
+        mainMenu.SetActive(true);
+        Time.timeScale = 0;
+        playerLook.SetCursorVisible(true);
+
+        finalPanel.SetActive(true);
+        finalIcon.sprite = finalSprite;
+        finalText.text = text;
+    }
+    private IEnumerator ViewTaskCoroutine()
+    {
+        yield return new WaitForSeconds(5);
+        taskPanel.SetActive(false);
+    }
     private IEnumerator DeathPanelToFoolAlphaCoroutine()
     {
         Color noAlphaColor = deathPanel.color;

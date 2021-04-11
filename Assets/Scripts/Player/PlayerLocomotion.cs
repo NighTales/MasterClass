@@ -33,6 +33,7 @@ public class PlayerLocomotion : MonoBehaviour
     private const float gravMultiplayer = 9.8f * 5f;
 
     private Transform myTransform;
+    private Collider transformFixator;
 
     private void Start()
     {
@@ -152,5 +153,21 @@ public class PlayerLocomotion : MonoBehaviour
         }
         transform.position = point.position;
         transform.rotation = point.rotation;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("TransformFixator"))
+        {
+            transformFixator = other;
+            myTransform.parent = other.transform;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if(other == transformFixator)
+        {
+            myTransform.parent = null;
+        }
     }
 }
