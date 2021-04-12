@@ -1,7 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Смена музыки
+/// </summary>
+[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
 public class MusicMixer : UsingObject
 {
     [SerializeField, Tooltip("Аудиоклип, который сменит изначальный")] private AudioClip newMusic;

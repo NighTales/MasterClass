@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -10,7 +9,8 @@ public class GameObjectActivator : UsingObject
 {
     [Tooltip("Объекты, которые будут переключены. TargetState для каждого после переключения" +
         "сменится на противоположный. Модуль можно будет использовать повторно для обратного эффекта.")]
-    public List<StateContainer> targets;
+    [SerializeField]
+    private List<StateContainer> targets;
 
     /// <summary>
     /// Переключить активность указанных объектов

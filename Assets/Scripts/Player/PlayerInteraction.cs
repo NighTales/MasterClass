@@ -1,8 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// Скрипт взаимодействия с интерактивными объектами
+/// </summary>
+[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
 public class PlayerInteraction : MonoBehaviour
 {
     public event Action spendEnergyToInteractEvent;
@@ -10,7 +12,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField, Tooltip("На какие слои не реагировать")]
     private LayerMask ignoreMask;
     [SerializeField, Range(1,5), Tooltip("На каком расстоянии можно взаимодействовать")]
-    private float interactionDistance = 5;
+    private float interactionDistance = 3;
     [SerializeField, Tooltip("Какую кнопку использовать для взаимодействия")]
     private KeyCode interactionButton = KeyCode.E;
 

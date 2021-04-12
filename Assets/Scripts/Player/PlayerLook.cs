@@ -1,10 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Скрипт обзора камерой
+/// </summary>
+[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
 public class PlayerLook : MonoBehaviour
 {
-    [Header("Обзор")]
     [SerializeField, Tooltip("Объект - камера")] private Transform cam;
     [SerializeField, Tooltip("Объект - пустышка, в которой находится камера")] private Transform camBufer;
     [SerializeField, Range(0, 2), Tooltip("Чувствительность камеры по горизонтали")]

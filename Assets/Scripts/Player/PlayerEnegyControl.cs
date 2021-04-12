@@ -1,17 +1,20 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[HelpURL("https://docs.google.com/document/d/1RHcBnAu17RNpBXFCBjciXxfc9zIFLied7kyB2Yie18o/edit?usp=sharing")]
+/// <summary>
+/// Скрипт, управляющий зарядом скафандра
+/// </summary>
+[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
 public class PlayerEnegyControl : MonoBehaviour
 {
-    [SerializeField, Min(1)] private float maxEnergyValue;
-    [SerializeField, Range(0,1)] private float moveDischarge;
-    [SerializeField, Range(0, 1)] private float jumpDischarge;
-    [SerializeField, Range(0, 1)] private float interationDischarge;
-    [SerializeField, Range(0, 1)] private float dangersDischarge;
-    [SerializeField, Range(0, 1)] private float constantDischarge;
-    [SerializeField] private Transform spawnPoint;
+    [SerializeField, Min(1), Tooltip("Максимальный уровень заряда")] private float maxEnergyValue;
+    [SerializeField, Range(0,1), Tooltip("Уровень расхода энергии при хотьбе")] private float moveDischarge;
+    [SerializeField, Range(0, 1), Tooltip("Уровень расхода энергии при прыжке")] private float jumpDischarge;
+    [SerializeField, Range(0, 1), Tooltip("Уровень расхода энергии при взаимодействиях")]
+    private float interationDischarge;
+    [SerializeField, Range(0, 1), Tooltip("Уровень расхода энергии при уроне")] private float dangersDischarge;
+    [SerializeField, Range(0, 1), Tooltip("Уровень постоянного расхода энергии")] private float constantDischarge;
+    [SerializeField, Tooltip("Точка воскрешения")] private Transform spawnPoint;
 
 
     private PlayerUI playerUI;

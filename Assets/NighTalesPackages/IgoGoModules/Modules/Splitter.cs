@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -8,7 +6,7 @@ using UnityEngine;
 [HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
 public class Splitter : UsingOrigin
 {
-    [SerializeField] private bool UseOnStart = false;
+    [SerializeField, Tooltip("Запустить сразу")] private bool UseOnStart = false;
 
     private void Start()
     {

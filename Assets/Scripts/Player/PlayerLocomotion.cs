@@ -1,16 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// Скрипт перемещения
+/// </summary>
 [RequireComponent(typeof(CharacterController))]
-[HelpURL("https://docs.google.com/document/d/1RHcBnAu17RNpBXFCBjciXxfc9zIFLied7kyB2Yie18o/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
 public class PlayerLocomotion : MonoBehaviour
 {
     public event Action spendEnergyToMoveEvent;
     public event Action spendEnergyToJumpEvent;
 
-    [Header("Перемещение")]
     [SerializeField, Range(1, 10), Tooltip("Скорость перемещения")] private float speed = 5f;
     [SerializeField, Range(1, 50), Tooltip("Сила прыжка")] private float jumpForce = 15.0f;
     [SerializeField, Range(-40, -1)]

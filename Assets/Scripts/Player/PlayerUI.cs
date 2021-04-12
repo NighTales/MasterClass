@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
@@ -8,23 +7,23 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Управление интерфейсом
 /// </summary>
+[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
 public class PlayerUI : MonoBehaviour
 {
-    public Slider energySlider;
-    [SerializeField] private Text text;
-    [SerializeField] private Image pointerImage;
-    [SerializeField] private Sprite defaultPointerSprite;
-    [SerializeField] private GameObject passwordPanel;
-    [SerializeField] private Text passwordText;
-    [SerializeField] private Image effectImage;
-    [SerializeField] private Sprite defaultEffectSprite;
-    [SerializeField] private Image deathPanel;
-    [SerializeField] private GameObject mainMenu;
-    [SerializeField] private GameObject taskPanel;
-    [SerializeField] private Text taskText;
-    [SerializeField] private GameObject finalPanel;
-    [SerializeField] private Image finalIcon;
-    [SerializeField] private Text finalText;
+    [Tooltip("Слайдер уровня заряда скафандра")] public Slider energySlider;
+    [SerializeField, Tooltip("Текст - подсказка при наведении на интерактивный объект")] private Text text;
+    [SerializeField, Tooltip("Текст - иконка прицела")] private Image pointerImage;
+    [SerializeField, Tooltip("Стандартная иконка прицела")] private Sprite defaultPointerSprite;
+    [SerializeField, Tooltip("Панель с найденным паролем")] private GameObject passwordPanel;
+    [SerializeField, Tooltip("Текст где прописывается найденный пароль")] private Text passwordText;
+    [SerializeField, Tooltip("Иконка эффекта от опасных зон")] private Image effectImage;
+    [SerializeField, Tooltip("Панель, которая показывается при смерти - телепорт")] private Image deathPanel;
+    [SerializeField, Tooltip("Панель меню")] private GameObject mainMenu;
+    [SerializeField, Tooltip("Панель с задачей")] private GameObject taskPanel;
+    [SerializeField, Tooltip("Текст задачи")] private Text taskText;
+    [SerializeField, Tooltip("Финальная панель")] private GameObject finalPanel;
+    [SerializeField, Tooltip("Иконка финальной панели")] private Image finalIcon;
+    [SerializeField, Tooltip("Текст финальной панели")] private Text finalText;
 
     public event Action foolAlphaDeathPanelEvent;
     public event Action noAlphaDeathPanelEvent;
@@ -90,11 +89,12 @@ public class PlayerUI : MonoBehaviour
 
     public void SetEffect(Sprite sprite)
     {
+        effectImage.enabled = true;
         effectImage.sprite = sprite;
     }
     public void ReturnEffectToDefault()
     {
-        effectImage.sprite = defaultEffectSprite;
+        effectImage.enabled = false; ;
     }
 
     public void DeathPanelToFoolAlpha()

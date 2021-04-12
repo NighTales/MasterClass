@@ -1084,7 +1084,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debug: 0
   used: 0
-  newMusic: {fileID: 8300000, guid: 4ba0f00aad111439ca2bc2dc1e02698e, type: 3}
+  newMusic: {fileID: 8300000, guid: 2bbee0fb157eb4ecebde976fb2bff711, type: 3}
   source: {fileID: 325073603}
   loop: 1
   hardChange: 0
@@ -6614,7 +6614,6 @@ MonoBehaviour:
   passwordPanel: {fileID: 1748614536}
   passwordText: {fileID: 1808560616}
   effectImage: {fileID: 1027845723}
-  defaultEffectSprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
   deathPanel: {fileID: 290473234}
   mainMenu: {fileID: 1942080570}
   taskPanel: {fileID: 1182158285}
