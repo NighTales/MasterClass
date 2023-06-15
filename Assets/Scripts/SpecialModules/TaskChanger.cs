@@ -13,7 +13,7 @@ public class TaskChanger : UsingObject
 
     private PlayerUI playerUI;
 
-    private void Start()
+    private void Awake()
     {
         playerUI = FindObjectOfType<PlayerUI>();
     }

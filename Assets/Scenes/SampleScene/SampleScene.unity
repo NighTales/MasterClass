@@ -28163,6 +28163,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1874744527}
     - target: {fileID: 3815430901040593131, guid: 19e8e97052bc37e4082f011f0e85b8be, type: 3}
+      propertyPath: password
+      value: 1404SD21
+      objectReference: {fileID: 0}
+    - target: {fileID: 3815430901040593131, guid: 19e8e97052bc37e4082f011f0e85b8be, type: 3}
       propertyPath: numberOfAttempts
       value: 5
       objectReference: {fileID: 0}
@@ -28738,6 +28742,14 @@ PrefabInstance:
       propertyPath: spawnPoint
       value: 
       objectReference: {fileID: 1392965624}
+    - target: {fileID: 1530491481243161952, guid: 991cb54e8d009f343babd1f7f4f4eb90, type: 3}
+      propertyPath: sensitivityHor
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530491481243161952, guid: 991cb54e8d009f343babd1f7f4f4eb90, type: 3}
+      propertyPath: sensitivityVert
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6078940420239584931, guid: 991cb54e8d009f343babd1f7f4f4eb90, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -28781,6 +28793,10 @@ PrefabInstance:
     - target: {fileID: 6078940420239584931, guid: 991cb54e8d009f343babd1f7f4f4eb90, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6078940420239584933, guid: 991cb54e8d009f343babd1f7f4f4eb90, type: 3}
+      propertyPath: speed
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6078940420239584934, guid: 991cb54e8d009f343babd1f7f4f4eb90, type: 3}
       propertyPath: m_Name
