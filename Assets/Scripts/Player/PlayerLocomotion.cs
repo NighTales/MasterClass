@@ -5,7 +5,6 @@ using System;
 /// <summary>
 /// Скрипт перемещения
 /// </summary>
-[RequireComponent(typeof(CharacterController))]
 [HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
 public class PlayerLocomotion : MonoBehaviour
 {
@@ -20,7 +19,9 @@ public class PlayerLocomotion : MonoBehaviour
     private float terminalVelocity = -10.0f;
     [SerializeField, Range(0.1f, 5), Tooltip("Сила притяжения. g=1 - земная гравитация")] private float gravity = 1f;
 
-    private CharacterController charController;
+    [SerializeField] private Transform jumpCheck;
+    [SerializeField] private LayerMask ignoreMask;
+
     private Vector3 moveVector;
     private float vertSpeed;
     private bool fall;
@@ -41,7 +42,6 @@ public class PlayerLocomotion : MonoBehaviour
         myTransform = transform;
         opportunityToMove = true;
         vertSpeed = minFall;
-        charController = GetComponent<CharacterController>();
         fall = true;
     }
     void Update()
@@ -55,11 +55,11 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void FreezeLocomotion()
     {
-        opportunityToMove = charController.enabled = false;
+        opportunityToMove = false;
     }
     public void ReturnLocomotionOpportunity()
     {
-        opportunityToMove = charController.enabled = true;
+        opportunityToMove = true;
     }
     public void SmoothMoveToPoint(Transform point)
     {
@@ -68,35 +68,27 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void SetBlockValueToPlayer(bool value)
     {
-        charController.enabled = !value;
+        opportunityToMove = !value;
     }
     public void TeleportToPoint(Transform point)
     {
         myTransform.position = point.position;
         myTransform.rotation = point.rotation;
     }
-    public void FastTeleportToPoint(Transform point)
-    {
-        charController.enabled = false;
-        myTransform.position = point.position;
-        myTransform.rotation = point.rotation;
-        charController.enabled = true;
-    }
 
     private void Jump()
     {
-        if (charController.isGrounded)
+        if (IsGrounded())
         {
             fallTimer = 0;
             fall = true;
             if (Input.GetButtonDown("Jump"))
             {
                 vertSpeed = jumpForce;
-                spendEnergyToJumpEvent?.Invoke();
             }
             else
             {
-                vertSpeed = minFall;
+                vertSpeed = 0;
             }
         }
         else
@@ -123,20 +115,25 @@ public class PlayerLocomotion : MonoBehaviour
     }
     private void PlayerMove()
     {
-        float deltaX = Input.GetAxis("Horizontal");
-        float deltaZ = Input.GetAxis("Vertical");
-
-        if(deltaX != 0 || deltaZ != 0)
-        {
-            spendEnergyToMoveEvent?.Invoke();
-        }
+        float deltaX = Input.GetAxisRaw("Horizontal");
+        float deltaZ = Input.GetAxisRaw("Vertical");
 
         moveVector = myTransform.forward * deltaZ + myTransform.right * deltaX;
         moveVector.y = 0;
         moveVector = moveVector.normalized * speed;
         moveVector.y = vertSpeed;
         moveVector *= Time.deltaTime;
-        charController.Move(moveVector);
+        myTransform.position += moveVector;
+    }
+
+    private bool IsGrounded()
+    {
+        Collider[] bufer = Physics.OverlapBox(jumpCheck.position, jumpCheck.localScale, Quaternion.identity, ~ignoreMask);
+
+        if (bufer != null && bufer.Length > 0)
+            return true;
+        else
+            return false;
     }
 
     private IEnumerator SmoothMoveToPointCoroutine(Transform point)

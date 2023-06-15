@@ -136,7 +136,7 @@ public class PlayerEnegyControl : MonoBehaviour
 
     private void PreparePlayer()
     {
-        playerLocomotion.FastTeleportToPoint(spawnPoint);
+        playerLocomotion.TeleportToPoint(spawnPoint);
         playerUI.energySlider.value = maxEnergyValue;
     }
     private void UnblockPlayer()
