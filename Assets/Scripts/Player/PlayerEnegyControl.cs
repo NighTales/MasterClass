@@ -8,8 +8,6 @@ using UnityEngine;
 public class PlayerEnegyControl : MonoBehaviour
 {
     [SerializeField, Min(1), Tooltip("Максимальный уровень заряда")] private float maxEnergyValue;
-    [SerializeField, Range(0,1), Tooltip("Уровень расхода энергии при хотьбе")] private float moveDischarge;
-    [SerializeField, Range(0, 1), Tooltip("Уровень расхода энергии при прыжке")] private float jumpDischarge;
     [SerializeField, Range(0, 1), Tooltip("Уровень расхода энергии при взаимодействиях")]
     private float interationDischarge;
     [SerializeField, Range(0, 1), Tooltip("Уровень расхода энергии при уроне")] private float dangersDischarge;
@@ -52,8 +50,6 @@ public class PlayerEnegyControl : MonoBehaviour
 
     private void Subscribe()
     {
-        playerLocomotion.spendEnergyToMoveEvent += SpendEnergyToMove;
-        playerLocomotion.spendEnergyToJumpEvent += SpendEnergyToJump;
         playerInteraction.spendEnergyToInteractEvent += SpendEnergyToInteraction;
         playerUI.foolAlphaDeathPanelEvent += PreparePlayer;
         playerUI.noAlphaDeathPanelEvent += UnblockPlayer;
@@ -61,11 +57,6 @@ public class PlayerEnegyControl : MonoBehaviour
     }
     private void Unsubscribe()
     {
-        if(playerInteraction != null)
-        {
-            playerLocomotion.spendEnergyToMoveEvent -= SpendEnergyToMove;
-            playerLocomotion.spendEnergyToJumpEvent -= SpendEnergyToJump;
-        }
         if(playerInteraction != null)
         {
             playerInteraction.spendEnergyToInteractEvent -= SpendEnergyToInteraction;
@@ -145,14 +136,6 @@ public class PlayerEnegyControl : MonoBehaviour
         buferEnergyPoint?.LaunchParticles(transform, true);
     }
 
-    private void SpendEnergyToMove()
-    {
-        SpendEnergy(Time.deltaTime * moveDischarge);
-    }
-    private void SpendEnergyToJump()
-    {
-        SpendEnergy(jumpDischarge);
-    }
     private void SpendEnergyToInteraction()
     {
         SpendEnergy(interationDischarge);

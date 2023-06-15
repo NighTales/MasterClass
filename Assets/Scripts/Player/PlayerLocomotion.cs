@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using System.Runtime.CompilerServices;
 
 /// <summary>
 /// Скрипт перемещения
@@ -8,11 +9,9 @@ using System;
 [HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
 public class PlayerLocomotion : MonoBehaviour
 {
-    public event Action spendEnergyToMoveEvent;
-    public event Action spendEnergyToJumpEvent;
-
     [SerializeField, Range(1, 10), Tooltip("Скорость перемещения")] private float speed = 5f;
     [SerializeField, Range(1, 50), Tooltip("Сила прыжка")] private float jumpForce = 15.0f;
+    [SerializeField, Range(1, 5), Tooltip("Скорость перехода к движению в приседе")] private float sitStateChangeSpeed = 2;
     [SerializeField, Range(-40, -1)]
     [Tooltip("Ограничение скорости падения. Это требуется, чтобы персонаж," +
         "падающий с большой высоты не проникал сквозь текстуры.")]
@@ -22,12 +21,18 @@ public class PlayerLocomotion : MonoBehaviour
     [SerializeField] private Transform jumpCheck;
     [SerializeField] private LayerMask ignoreMask;
 
+    [SerializeField] private Transform faceHeight;
+    [SerializeField] private Transform stayFacePoint;
+    [SerializeField] private Transform sitFacePoint;
+
     private Vector3 moveVector;
+    private CapsuleCollider capsuleCollider;
     private float vertSpeed;
-    private bool fall;
-    private float fallTimer;
+    private JumpState jumpState;
     private bool opportunityToMove;
     private float minFall = -1.5f;
+
+    private SitState sitState = SitState.Stay;
 
     /// <summary>
     /// Этот коэффициент используется, чтобы добиться ощущения "правильной" гравитации при gravity = 1.
@@ -42,7 +47,8 @@ public class PlayerLocomotion : MonoBehaviour
         myTransform = transform;
         opportunityToMove = true;
         vertSpeed = minFall;
-        fall = true;
+        jumpState = JumpState.Stay;
+        capsuleCollider = GetComponent<CapsuleCollider>();
     }
     void Update()
     {
@@ -50,6 +56,7 @@ public class PlayerLocomotion : MonoBehaviour
         {
             Jump();
             PlayerMove();
+            SitStateToggle();
         }
     }
 
@@ -78,38 +85,28 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void Jump()
     {
-        if (IsGrounded())
+        if (IsGrounded() && jumpState == JumpState.Stay)
         {
-            fallTimer = 0;
-            fall = true;
             if (Input.GetButtonDown("Jump"))
             {
-                vertSpeed = jumpForce;
+                vertSpeed = jumpForce * (sitState == SitState.Stay? 1 : 0.5f);
+                jumpState = JumpState.Jump;
+                return;
             }
-            else
-            {
-                vertSpeed = 0;
-            }
+            vertSpeed = 0;
         }
         else
         {
-            if (fall)
+            vertSpeed -= gravity * gravMultiplayer * Time.deltaTime;
+
+            if (vertSpeed <= 0)
             {
-                vertSpeed -= gravity * gravMultiplayer * Time.deltaTime;
-                if (vertSpeed < terminalVelocity)
-                {
-                    vertSpeed = terminalVelocity;
-                }
+                jumpState = JumpState.Fall;
             }
-            else
+
+            if (vertSpeed < terminalVelocity)
             {
-                fallTimer -= Time.deltaTime;
-                if (fallTimer <= 0)
-                {
-                    fallTimer = 0;
-                    fall = true;
-                }
-                vertSpeed = 0;
+                vertSpeed = terminalVelocity;
             }
         }
     }
@@ -120,20 +117,47 @@ public class PlayerLocomotion : MonoBehaviour
 
         moveVector = myTransform.forward * deltaZ + myTransform.right * deltaX;
         moveVector.y = 0;
-        moveVector = moveVector.normalized * speed;
+        moveVector = moveVector.normalized * speed * (sitState == SitState.Stay? 1 : 0.5f);
         moveVector.y = vertSpeed;
         moveVector *= Time.deltaTime;
         myTransform.position += moveVector;
     }
+    private void SitStateToggle()
+    {
+        if(Input.GetButtonDown("Sit") && opportunityToMove && sitState != SitState.ChangeState)
+        {
+            if (sitState == SitState.Stay)
+            {
+                sitState = SitState.ChangeState;
+                StartCoroutine(ToSitStateCoroutine());
+            }
+            else
+            {
+                sitState = SitState.ChangeState;
+                StartCoroutine(ToStayStateCoroutine());
+            }
+        }
+    }
 
     private bool IsGrounded()
     {
+        if(jumpState == JumpState.Jump)
+        { 
+            return false;
+        }
+
         Collider[] bufer = Physics.OverlapBox(jumpCheck.position, jumpCheck.localScale, Quaternion.identity, ~ignoreMask);
 
         if (bufer != null && bufer.Length > 0)
+        {
+            jumpState = JumpState.Stay;
             return true;
+        }
         else
+        {
+            jumpState= JumpState.Fall;
             return false;
+        }
     }
 
     private IEnumerator SmoothMoveToPointCoroutine(Transform point)
@@ -153,6 +177,53 @@ public class PlayerLocomotion : MonoBehaviour
         transform.rotation = point.rotation;
     }
 
+    private IEnumerator ToSitStateCoroutine()
+    {
+        float startCapsuleHeight = capsuleCollider.height;
+        float targetCapsuleHeight = capsuleCollider.height / 2;
+        Vector3 startCapsuleCenter = capsuleCollider.center;
+        Vector3 targetCapsuleCenter = new Vector3(0, 0.52f, 0);
+        Vector3 startFacePosition = faceHeight.position;
+        Vector3 targetFacePosition = sitFacePoint.position;
+
+        float t = 0;
+
+        while (t<=1)
+        {
+            capsuleCollider.height = Mathf.Lerp(startCapsuleHeight, targetCapsuleHeight, t);
+            capsuleCollider.center = Vector3.Lerp(startCapsuleCenter, targetCapsuleCenter, t);
+            faceHeight.position = Vector3.Lerp(startFacePosition, targetFacePosition, t);
+            t += Time.deltaTime * sitStateChangeSpeed;
+
+            yield return null;
+        }
+
+        sitState = SitState.Sit;
+    }
+    private IEnumerator ToStayStateCoroutine()
+    {
+        float startCapsuleHeight = capsuleCollider.height;
+        float targetCapsuleHeight = capsuleCollider.height * 2;
+        Vector3 startCapsuleCenter = capsuleCollider.center;
+        Vector3 targetCapsuleCenter = new Vector3(0, 0.94f, 0);
+        Vector3 startFacePosition = faceHeight.position;
+        Vector3 targetFacePosition = stayFacePoint.position;
+
+        float t = 0;
+
+        while (t <= 1)
+        {
+            capsuleCollider.height = Mathf.Lerp(startCapsuleHeight, targetCapsuleHeight, t);
+            capsuleCollider.center = Vector3.Lerp(startCapsuleCenter, targetCapsuleCenter, t);
+            faceHeight.position = Vector3.Lerp(startFacePosition, targetFacePosition, t);
+            t += Time.deltaTime * sitStateChangeSpeed;
+
+            yield return null;
+        }
+
+        sitState = SitState.Stay;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("TransformFixator"))
@@ -168,4 +239,21 @@ public class PlayerLocomotion : MonoBehaviour
             myTransform.parent = null;
         }
     }
+
+
+    enum SitState
+    {
+        Stay,
+        Sit,
+        ChangeState
+    }
+
+    enum JumpState
+    {
+        Stay,
+        Jump,
+        Fall
+    }
 }
+
+
