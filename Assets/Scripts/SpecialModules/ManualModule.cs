@@ -4,7 +4,7 @@
 /// Позволяет передавать сигнал о действии объектам с помощью PlayerInteraction
 /// </summary>
 [RequireComponent(typeof(Collider))]
-[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/1a2mcK_EUEbFaF2YLZhjGpQVj6HRuVvAtzEsm6RIfra8/edit?usp=sharing")]
 public class ManualModule : InteractableItem
 {
     /// <summary>

@@ -4,7 +4,7 @@ using System;
 /// <summary>
 /// Скрипт взаимодействия с интерактивными объектами
 /// </summary>
-[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/1NHEB7Qvp09M6XAYpyX4ZXnr_KcRm1muQsvXALY9qm2Y/edit?usp=sharing")]
 public class PlayerInteraction : MonoBehaviour
 {
     public event Action spendEnergyToInteractEvent;

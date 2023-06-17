@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Управление интерфейсом
 /// </summary>
-[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/1Gtygy76qzWktagW6KIqYZ_6ulFcFOMskSB0LZN84AL0/edit?usp=sharing")]
 public class PlayerUI : MonoBehaviour
 {
     [Tooltip("Слайдер уровня заряда скафандра")] public Slider energySlider;

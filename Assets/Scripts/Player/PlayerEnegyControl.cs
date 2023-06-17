@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Скрипт, управляющий зарядом скафандра
 /// </summary>
-[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/1KPj6PQdem4UZ1I2N8boi_pYtEZRDkm6yu8ZQ62RRO8E/edit?usp=sharing")]
 public class PlayerEnegyControl : MonoBehaviour
 {
     [SerializeField, Min(1), Tooltip("Максимальный уровень заряда")] private float maxEnergyValue;

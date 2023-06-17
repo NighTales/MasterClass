@@ -4,7 +4,7 @@
 /// Зона, при входе в котороую ModuleReactor будет запускать импульс
 /// </summary>
 [RequireComponent(typeof(BoxCollider))]
-[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/1tGl2RoQzY_1SE1c3TyK-ySQ0GqvCRpqoJXqgHtasRiQ/edit?usp=sharing")]
 public class LocationReactor : UsingOrigin
 {
     [Space(20)]
