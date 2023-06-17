@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" addBOMForNewFiles="with BOM under Windows, with no BOM otherwise">
+    <file url="file://$PROJECT_DIR$/Assets/NighTalesPackages/IgoGoModules/Modules/AudioStarter.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/NighTalesPackages/IgoGoModules/Modules/MusicMixer.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/NighTalesPackages/IgoGoModules/Modules/Rotor.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/NighTalesPackages/IgoGoModules/Modules/Splitter.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/NighTalesPackages/IgoGoModules/Modules/TransformModule.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Player/PlayerEnegyControl.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Player/PlayerInfoHolder.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Player/PlayerInteraction.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Player/PlayerLocomotion.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Player/PlayerLook.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Player/PlayerUI.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/SpecialModules/ComputerModule.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/SpecialModules/DangerPoint.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/SpecialModules/EnergyPoint.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/SpecialModules/GameResultModule.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/SpecialModules/PasswordItemContainer.cs" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/SpecialModules/TaskChanger.cs" charset="windows-1251" />
+  </component>
+</project>

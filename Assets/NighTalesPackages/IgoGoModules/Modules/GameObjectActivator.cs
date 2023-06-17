@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Задаёт указанным объектам значение activeSalfe, равное state
 /// </summary>
-[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/1SSYvJQCSI5n47luaeOEiMVqYWpMTlGxABMUtG7VGBAQ/edit?usp=sharing")]
 public class GameObjectActivator : UsingObject
 {
     [Tooltip("Объекты, которые будут переключены. TargetState для каждого после переключения" +

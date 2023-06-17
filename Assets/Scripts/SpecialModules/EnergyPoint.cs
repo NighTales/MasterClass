@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Точка, пополняющая энергию игрока и меняющая его точку спавна
 /// </summary>
-[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/1IP9ALvFZk9O6SwYpS9I7H1-WQci2OEaknke7YdTzZrc/edit?usp=sharing")]
 public class EnergyPoint : MonoBehaviour
 {
     [Tooltip("Точка возрождения")] public Transform spawnPoint;

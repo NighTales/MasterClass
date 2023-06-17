@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Смена музыки
 /// </summary>
-[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/12D684WpLtyon3Le0J_k7_nD-BJfDa3wYOdVP1I3QlD4/edit?usp=sharing")]
 public class MusicMixer : UsingObject
 {
     [SerializeField, Tooltip("Аудиоклип, который сменит изначальный")] private AudioClip newMusic;

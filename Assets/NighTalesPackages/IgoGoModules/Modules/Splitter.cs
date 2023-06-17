@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Передаёт один сигнал большому коичеству модулей (используется для удобства)
 /// </summary>
-[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/1uuKl2mXgrk8ZtGrdyVY8JK23MDIb2eEX-_ulNJs1WVo/edit?usp=sharing")]
 public class Splitter : UsingOrigin
 {
     [SerializeField, Tooltip("Запустить сразу")] private bool UseOnStart = false;

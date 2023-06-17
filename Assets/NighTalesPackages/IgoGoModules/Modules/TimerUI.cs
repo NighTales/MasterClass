@@ -4,7 +4,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Данный модуль применяется для отрисовки обратного отсчёта таймеров.
 /// </summary>
-[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/1tau3N6P_yTBSTCnh065HvKsXblK33lJzJG59UQ0rZmc/edit?usp=sharing")]
 public class TimerUI : MonoBehaviour
 {
     [SerializeField, Tooltip("UI-текст, где будет отображаться обратный отсчёт")] private Text timerText;

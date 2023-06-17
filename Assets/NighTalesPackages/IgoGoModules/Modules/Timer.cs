@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// когда данный модуль активируется, то запускается обратный отсчёт, после которого он передаёт сигнал следующим модулям
 /// </summary>
-[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/1lh6_e8I11161lrJOnVsoNGvOofhYolm87mVaRMmvToY/edit?usp=sharing")]
 public class Timer : UsingOrigin
 {
     [Space(20), Tooltip("Время в секундах, через которое сигнал будет передан другим модулям"), Range(0, 3600)]

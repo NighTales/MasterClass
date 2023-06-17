@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Данный класс используется, когда нужно, чтобы все actors сработали перед тем, как сигнал пошёл дальше. Одноразовый модуль!
 /// </summary>
-[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/1iWiX6UZ7yBeIHZaa5N8r4gI5BmdkYwWxF7k5v9uOAzU/edit?usp=sharing")]
 public class Bottleneck : UsingOrigin {
 
     /// <summary>

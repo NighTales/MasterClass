@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Скрипт обзора камерой
 /// </summary>
-[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/1dm9wemLIta_WcqR-Kz0fanKv5ICR9wrwQAKpvAr_468/edit?usp=sharing")]
 public class PlayerLook : MonoBehaviour
 {
     [SerializeField, Tooltip("Объект - камера")] private Transform cam;

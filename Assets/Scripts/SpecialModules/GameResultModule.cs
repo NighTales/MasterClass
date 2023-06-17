@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Выводит финальную панель с указанным текстом и иконкой
 /// </summary>
-[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/1ZQ7WCUZ5dxR-qaPXSSIiBUKbshHIU4aBklKKmlZ1p9o/edit?usp=sharing")]
 public class GameResultModule : UsingObject
 {
     [SerializeField]

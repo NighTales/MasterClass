@@ -4,7 +4,7 @@ using UnityEngine.UI;
 /// <summary>
 /// ѕарольна€ карта
 /// </summary>
-[HelpURL("https://docs.google.com/document/d/1OZ45iQgWRDoWCmRe4UW9zX_etUkL64Vo_nURmUOBerc/edit?usp=sharing")]
+[HelpURL("https://docs.google.com/document/d/1Lx0ViX8BewkGp61OfT_7HXL8JeKo0wQ8C6-cbwad3wc/edit?usp=sharing")]
 public class PasswordItemContainer : InteractableItem
 {
     [SerializeField, Tooltip("текст где будет выводитьс€ пароль")] private Text passwordText;
