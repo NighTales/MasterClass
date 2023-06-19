@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +9,7 @@ using UnityEngine.UI;
 public class ComputerModule : InteractableItem
 {
     [Header("Настройки")]
-    [Tooltip("Имя пользователя компьютера или его псевдоним")] public string login;
-    [Tooltip("Пароль пользователя")] public string password;
+    public ProfileItem profile;
     [Range(1, 10)]
     [SerializeField]
     [Tooltip("Количество попыток перед блокировкой")]
@@ -37,6 +37,7 @@ public class ComputerModule : InteractableItem
     [SerializeField]
     private Text attemtsCountText;
 
+    private int currentAttemptsCount;
     private PlayerLocomotion playerLokomotion;
     private PlayerLook playerLook;
     private PlayerUI playerUI;
@@ -50,16 +51,16 @@ public class ComputerModule : InteractableItem
 
     public void CheckPassword()
     {
-        if(passwordText.text.Equals(password))
+        if(passwordText.text.Equals(profile.password))
         {
             commandPack.SetActive(true);
             passwordPack.SetActive(false);
         }
         else
         {
-            numberOfAttempts--;
-            attemtsCountText.text = "Попыток " + numberOfAttempts;
-            if (numberOfAttempts == 0)
+            currentAttemptsCount--;
+            attemtsCountText.text = "Попыток " + currentAttemptsCount;
+            if (currentAttemptsCount == 0)
             {
                 blockPack.SetActive(true);
                 passwordPack.SetActive(false);
@@ -85,6 +86,15 @@ public class ComputerModule : InteractableItem
         playerUI.ClearPassword();
     }
 
+    public void OnProfileDataChanged()
+    {
+        blockPack.SetActive(false);
+        passwordPack.SetActive(true);
+        loginText.text = profile.login;
+        currentAttemptsCount = numberOfAttempts;
+        attemtsCountText.text = "Попыток " + currentAttemptsCount;
+    }
+
     void Start()
     {
         playerInfoHolder = FindObjectOfType<PlayerInfoHolder>();
@@ -92,8 +102,8 @@ public class ComputerModule : InteractableItem
         playerLokomotion = FindObjectOfType<PlayerLocomotion>();
         playerLook = FindObjectOfType<PlayerLook>();
         playerUI = FindObjectOfType<PlayerUI>();
-        attemtsCountText.text = "Попыток " + numberOfAttempts;
-        loginText.text = login;
+        OnProfileDataChanged();
+        profile.ProfileDataChanged += OnProfileDataChanged;
     }
 
     private void OnDrawGizmos()
@@ -105,5 +115,22 @@ public class ComputerModule : InteractableItem
             Gizmos.DrawSphere(playerLookPoint.position, 0.3f);
             Gizmos.DrawLine(playerPoint.position, playerLookPoint.position);
         }
+    }
+}
+
+[System.Serializable]
+public class ProfileItem
+{
+    public string login;
+    public string password;
+
+    public event Action ProfileDataChanged;
+
+    public void InvokeChangeData(string newLogin, string newPassword)
+    {
+        login = newLogin;
+        password = newPassword;
+
+        ProfileDataChanged?.Invoke();
     }
 }

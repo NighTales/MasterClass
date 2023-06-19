@@ -16,10 +16,10 @@ public class PasswordItemContainer : InteractableItem
 
     private void Start()
     {
-        userText.text = "Карта сотрудника\n\rLogIn: " + computer.login;
+        computer.profile.ProfileDataChanged += OnProfileDataChanged;
         playerInfoHolder = FindObjectOfType<PlayerInfoHolder>();
         playerUI = FindObjectOfType<PlayerUI>();
-        passwordText.text = computer.password;
+        OnProfileDataChanged();
     }
 
     public override void ToStart()
@@ -27,10 +27,17 @@ public class PasswordItemContainer : InteractableItem
 
     }
 
+    public void OnProfileDataChanged()
+    {
+        userText.text = "Карта сотрудника\n\rLogIn: " + computer.profile.login;
+        passwordText.text = computer.profile.password;
+    }
+
     public override void Use()
     {
         playerInfoHolder.AddPasswordItem(computer);
         playerUI.ClearPointer();
+        computer.profile.ProfileDataChanged -= OnProfileDataChanged;
         Destroy(gameObject);
     }
 }

@@ -31,7 +31,7 @@ public class PlayerInfoHolder : MonoBehaviour
         {
             if(item == computer)
             {
-                playerUI.SetPassword(item.password);
+                playerUI.SetPassword(item.profile.password);
             }
         }
     }

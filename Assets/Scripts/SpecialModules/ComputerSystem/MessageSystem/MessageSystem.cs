@@ -25,7 +25,7 @@ public class MessageSystem : MonoBehaviour
 
         foreach (var item in messageSessions[index].messages)
         {
-            if (item.groupMessageFromOne || !item.sender.Equals(computerModule.login))
+            if (item.groupMessageFromOne || !item.sender.Equals(computerModule.profile.login))
             {
                 messageItemRectTransform = Instantiate(friendMessageItem, messagesScrollViewConten).GetComponent<RectTransform>();
             }
