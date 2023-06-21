@@ -1,16 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Зона, при входе в котороую ModuleReactor будет запускать импульс
 /// </summary>
-[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(Collider))]
 [HelpURL("https://docs.google.com/document/d/1tGl2RoQzY_1SE1c3TyK-ySQ0GqvCRpqoJXqgHtasRiQ/edit?usp=sharing")]
 public class LocationReactor : UsingOrigin
 {
     [Space(20)]
     [Tooltip("Реагировать только на вход")] public bool enterOnly;
     [Tooltip("Отключаться после первого срабатывания")] public bool once;
-
+    
     public override void Use()
     {
         UseAll();
@@ -24,7 +25,6 @@ public class LocationReactor : UsingOrigin
     {
         used = false;
     }
-
     private void OnDrawGizmos()
     {
         if (debug)
