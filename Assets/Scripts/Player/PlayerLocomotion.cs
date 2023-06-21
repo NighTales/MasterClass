@@ -31,6 +31,7 @@ public class PlayerLocomotion : MonoBehaviour
     private JumpState jumpState;
     private bool opportunityToMove;
     private float minFall = -1.5f;
+    private Transform oldParent;
 
     private SitState sitState = SitState.Stay;
 
@@ -228,6 +229,10 @@ public class PlayerLocomotion : MonoBehaviour
     {
         if(other.CompareTag("TransformFixator"))
         {
+            if (!transform.parent.CompareTag("TransformFixator"))
+            {
+                oldParent = transform.parent;
+            }
             transformFixator = other;
             myTransform.parent = other.transform;
         }
@@ -236,7 +241,7 @@ public class PlayerLocomotion : MonoBehaviour
     {
         if(other == transformFixator)
         {
-            myTransform.parent = null;
+            myTransform.parent = oldParent;
         }
     }
 
