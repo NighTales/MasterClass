@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +27,11 @@ public class ComputerModule : InteractableItem
     private Text loginText;
     [SerializeField]
     private Text passwordText;
+    [SerializeField, Tooltip("Панель с найденным паролем")] 
+    private GameObject foundedPasswordPanel;
+    [SerializeField, Tooltip("Текст где прописывается найденный пароль")]
+    private Text foundedPasswordText;
+
     [SerializeField]
     private GameObject passwordPack;
     [SerializeField]
@@ -53,8 +59,7 @@ public class ComputerModule : InteractableItem
     {
         if(passwordText.text.Equals(profile.password))
         {
-            commandPack.SetActive(true);
-            passwordPack.SetActive(false);
+            UseFoundedPassword();
         }
         else
         {
@@ -70,20 +75,25 @@ public class ComputerModule : InteractableItem
 
     public override void Use()
     {
+        StartCoroutine(CheckInputCoroutine());
         playerLokomotion.FreezeLocomotion();
         playerLokomotion.SmoothMoveToPoint(playerPoint);
         playerLook.ToMenuState(playerLookPoint);
         playerUI.SetPointerVisible(false);
-        playerInfoHolder.FindPassword(this);
+        if(playerInfoHolder.FindPassword(this))
+        {
+            foundedPasswordPanel.SetActive(true);
+            foundedPasswordText.text = profile.password;
+        }
         col.enabled = false;
     }
     public void ToDefault()
     {
+        StopCoroutine(CheckInputCoroutine());
         col.enabled = true;
         playerUI.SetPointerVisible(true);
         playerLokomotion.ReturnLocomotionOpportunity();
         playerLook.ToDefaultState();
-        playerUI.ClearPassword();
     }
 
     public void OnProfileDataChanged()
@@ -93,6 +103,12 @@ public class ComputerModule : InteractableItem
         loginText.text = profile.login;
         currentAttemptsCount = numberOfAttempts;
         attemtsCountText.text = "Попыток " + currentAttemptsCount;
+    }
+
+    public void UseFoundedPassword()
+    {
+        commandPack.SetActive(true);
+        passwordPack.SetActive(false);
     }
 
     void Start()
@@ -114,6 +130,18 @@ public class ComputerModule : InteractableItem
             Gizmos.DrawWireSphere(playerPoint.position, 0.3f);
             Gizmos.DrawSphere(playerLookPoint.position, 0.3f);
             Gizmos.DrawLine(playerPoint.position, playerLookPoint.position);
+        }
+    }
+
+    private IEnumerator CheckInputCoroutine()
+    {
+        while(true) 
+        {
+            if(Input.GetKeyDown(KeyCode.Return))
+            {
+                CheckPassword();
+            }
+            yield return null;
         }
     }
 }

@@ -12,7 +12,9 @@ public class ControlSystemCore : MonoBehaviour
     private RawImage cameraRenderScreen;
 
     [SerializeField]
-    private Transform moduleCommandsContent;
+    private Transform ñommandModuleContent;
+    [SerializeField]
+    private Transform commandsContent;
 
     [SerializeField]
     private GameObject commandButtonPrefab;
@@ -20,11 +22,21 @@ public class ControlSystemCore : MonoBehaviour
     [SerializeField]
     private List<ModuleItem> moduleItems;
 
-    public void ClearAll()
+    public void ClearAllCommands()
     {
-        for (int i = 0; i < moduleCommandsContent.childCount; i++)
+        for (int i = 0; i < commandsContent.childCount; i++)
         {
-            Destroy(moduleCommandsContent.GetChild(i).gameObject);
+            Destroy(commandsContent.GetChild(i).gameObject);
+        }
+
+        cameraRenderScreen.gameObject.SetActive(false);
+    }
+
+    public void ClearAllCommandModules()
+    {
+        for (int i = 0; i < ñommandModuleContent.childCount; i++)
+        {
+            Destroy(ñommandModuleContent.GetChild(i).gameObject);
         }
 
         cameraRenderScreen.gameObject.SetActive(false);
@@ -32,11 +44,11 @@ public class ControlSystemCore : MonoBehaviour
 
     public void SetModuleItemWithNumber(int i)
     {
-        ClearAll();
+        ClearAllCommands();
         foreach (var item in moduleItems[i].commands)
         {
-            GameObject commandButton = Instantiate(commandButtonPrefab, moduleCommandsContent);
-            item.commandTextBox = commandButton.GetComponent<MessageItem>().messageTextBox;
+            GameObject commandButton = Instantiate(commandButtonPrefab, commandsContent);
+            item.commandTextBox = commandButton.GetComponent<MessageItem>().messageTextBlock;
             item.commandTextBox.text = item.commandTitleDefault;
             commandButton.GetComponent<Button>().onClick.AddListener(() => item.ExecuteCommand());
         }
@@ -47,11 +59,25 @@ public class ControlSystemCore : MonoBehaviour
             cameraRenderScreen.texture = moduleItems[i].moduleCamera.activeTexture;
         }
     }
+
+    public void PrepareAllCommandModules()
+    {
+        ClearAllCommandModules();
+        for (int i = 0; i < moduleItems.Count; i++)
+        {
+            ModuleItem item = moduleItems[i];
+            GameObject commandButton = Instantiate(commandButtonPrefab, ñommandModuleContent);
+            commandButton.GetComponent<MessageItem>().messageTextBlock.text = item.name;
+            int bufer = i;
+            commandButton.GetComponent<Button>().onClick.AddListener(() => SetModuleItemWithNumber(bufer));
+        }
+    }
 }
 
 [System.Serializable]
 public class ModuleItem
 {
+    public string name;
     public Camera moduleCamera;
     public List<ModuleCommand> commands;
 }
@@ -59,11 +85,11 @@ public class ModuleItem
 [System.Serializable]
 public class ModuleCommand
 {
-    public bool useDefaultTitle;
+    public bool useDefaultTitle = true;
     public string commandTitleDefault;
     public string commandTitleSecond;
     public UnityEvent executeAction;
-    public Text commandTextBox;
+    [HideInInspector] public Text commandTextBox;
 
     public void ChangeCommandTitle()
     {

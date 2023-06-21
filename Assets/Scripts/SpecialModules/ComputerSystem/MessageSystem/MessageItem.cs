@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class MessageItem : MonoBehaviour
 {
-    public Text messageTextBox;
+    public Text messageTextBlock;
 }
 
 [System.Serializable]

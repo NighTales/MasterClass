@@ -14,8 +14,6 @@ public class PlayerUI : MonoBehaviour
     [SerializeField, Tooltip("Текст - подсказка при наведении на интерактивный объект")] private Text text;
     [SerializeField, Tooltip("Текст - иконка прицела")] private Image pointerImage;
     [SerializeField, Tooltip("Стандартная иконка прицела")] private Sprite defaultPointerSprite;
-    [SerializeField, Tooltip("Панель с найденным паролем")] private GameObject passwordPanel;
-    [SerializeField, Tooltip("Текст где прописывается найденный пароль")] private Text passwordText;
     [SerializeField, Tooltip("Иконка эффекта от опасных зон")] private Image effectImage;
     [SerializeField, Tooltip("Панель, которая показывается при смерти - телепорт")] private Image deathPanel;
     [SerializeField, Tooltip("Панель меню")] private GameObject mainMenu;
@@ -35,7 +33,6 @@ public class PlayerUI : MonoBehaviour
     void Start()
     {
         ClearPointer();
-        ClearPassword();
         deathPanel.color = new Color(deathPanel.color.r, deathPanel.color.g, deathPanel.color.b, deathPanel.color.a);
         DeathPanelToZeroAlpha();
         mainMenu.SetActive(!mainMenu.activeSelf);
@@ -75,16 +72,6 @@ public class PlayerUI : MonoBehaviour
     {
         text.text = message;
         pointerImage.sprite = icon;
-    }
-
-    public void SetPassword(string password)
-    {
-        passwordPanel.SetActive(true);
-        passwordText.text = password;
-    }
-    public void ClearPassword()
-    {
-        passwordPanel.SetActive(false);
     }
 
     public void SetEffect(Sprite sprite)

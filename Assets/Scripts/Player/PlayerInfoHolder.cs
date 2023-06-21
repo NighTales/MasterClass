@@ -9,12 +9,9 @@ public class PlayerInfoHolder : MonoBehaviour
 {
     private List<ComputerModule> computers;
 
-    private PlayerUI playerUI;
-
     private void Start()
     {
         computers = new List<ComputerModule>();
-        playerUI = FindObjectOfType<PlayerUI>();
     }
 
     public void AddPasswordItem(ComputerModule computer)
@@ -25,14 +22,15 @@ public class PlayerInfoHolder : MonoBehaviour
         computers.Add(computer);
     }
 
-    public void FindPassword(ComputerModule computer)
+    public bool FindPassword(ComputerModule computer)
     {
         foreach (var item in computers)
         {
             if(item == computer)
             {
-                playerUI.SetPassword(item.profile.password);
+                return true;
             }
         }
+        return false;
     }
 }

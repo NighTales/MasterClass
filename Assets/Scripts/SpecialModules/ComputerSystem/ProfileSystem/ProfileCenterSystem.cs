@@ -16,7 +16,10 @@ public class ProfileCenterSystem : MonoBehaviour
 
         foreach (ComputerModule computer in computers)
         {
-            profileItems.Add(computer.profile);
+            if (computer.gameObject.activeInHierarchy)
+            {
+                profileItems.Add(computer.profile);
+            }
         }
     }
 
@@ -38,7 +41,7 @@ public class ProfileCenterSystem : MonoBehaviour
     {
         for (int i = 0; i < profileItemsContent.childCount; i++)
         {
-            Destroy(profileItemsContent.GetChild(i));
+            Destroy(profileItemsContent.GetChild(i).gameObject);
         }
     }
 }

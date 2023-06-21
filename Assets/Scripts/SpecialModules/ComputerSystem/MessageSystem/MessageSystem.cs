@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MessageSystem : MonoBehaviour
 {
@@ -8,11 +9,18 @@ public class MessageSystem : MonoBehaviour
     [SerializeField]
     private List<MessageDatabase> messageSessions;
     [SerializeField]
-    private GameObject myMessageItem;
+    private GameObject messageButtonPrefab;
+    [SerializeField]
+    private GameObject myMessagePrefab;
     [SerializeField] 
     private GameObject friendMessageItem;
+    [SerializeField]
+    private Transform messagesConten;
     [SerializeField] 
     private Transform messagesScrollViewConten;
+
+    private const int heightForOneString = 29;
+    private const int widthForOneCharacter = 4;
 
     public void DrawMessagesFromBaseWithIndex(int index)
     {
@@ -31,17 +39,46 @@ public class MessageSystem : MonoBehaviour
             }
             else
             {
-                messageItemRectTransform = Instantiate(myMessageItem, messagesScrollViewConten).GetComponent<RectTransform>();
+                messageItemRectTransform = Instantiate(myMessagePrefab, messagesScrollViewConten).GetComponent<RectTransform>();
             }
 
             MessageItem messageItem = messageItemRectTransform.GetComponent<MessageItem>();
-            messageItem.messageTextBox.text = item.message;
+            messageItem.messageTextBlock.text = item.message;
 
-            float height = 100;
-            height += +(item.message.Length / 35)*40;
-            char[] separator = { '\n' };
-            height += item.message.Split(separator).Length-1*40;
-            messageItemRectTransform.SetHeight(height);
+            int partsCount = item.message.Split('\n').Length;
+
+            //float parts = 0;
+            //if (partsCount > 0) 
+            //{
+            //   parts = (partsCount) * heightForOneString;
+            //}
+
+            //Canvas.ForceUpdateCanvases();
+            //float lines = messageItem.messageTextBlock.cachedTextGenerator.lineCount;
+            //if (lines > 1)
+            //{
+            //    lines++;
+            //}
+           float height = 
+                messageItem.messageTextBlock.cachedTextGenerator.GetPreferredHeight(item.message, messageItem.messageTextBlock.GetGenerationSettings(new Vector2(500, 500)));
+            if (height > heightForOneString*2)
+            {
+                height += height/heightForOneString * 12;
+            }
+            messageItemRectTransform.SetHeight(height + 10);
+        }
+    }
+
+    public void PrepareAllCommandModules()
+    {
+        for (int i = 0; i < messageSessions.Count; i++)
+        {
+            MessageDatabase item = messageSessions[i];
+            GameObject commandButton = Instantiate(messageButtonPrefab, messagesConten);
+
+            commandButton.GetComponent<MessageItem>().messageTextBlock.text = item.title;
+            int bufer = i;
+            commandButton.GetComponent<Button>().onClick.AddListener(() => DrawMessagesFromBaseWithIndex(bufer));
         }
     }
 }
