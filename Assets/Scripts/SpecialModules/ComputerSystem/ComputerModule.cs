@@ -21,6 +21,15 @@ public class ComputerModule : InteractableItem
     [SerializeField]
     [Tooltip("Точка, куда подлетает камера")]
     private Transform playerLookPoint;
+    [SerializeField]
+    private AudioSource source;
+    [SerializeField]
+    private AudioClip defaultLoginSound;
+    [SerializeField]
+    private AudioClip lockPickSound;
+    [SerializeField]
+    private AudioClip blockSound;
+
 
     [Header("UI")]
     [SerializeField]
@@ -39,9 +48,13 @@ public class ComputerModule : InteractableItem
     [SerializeField]
     private GameObject blockPack;
     [SerializeField]
+    private GameObject LockPickPack;
+    [SerializeField]
     private InputField inputField;
     [SerializeField]
     private Text attemtsCountText;
+    [SerializeField]
+    private Text lockPickCountText;
 
     private int currentAttemptsCount;
     private PlayerLocomotion playerLokomotion;
@@ -69,6 +82,7 @@ public class ComputerModule : InteractableItem
             {
                 blockPack.SetActive(true);
                 passwordPack.SetActive(false);
+                source.PlayOneShot(blockSound);
             }
         }
     }
@@ -85,6 +99,10 @@ public class ComputerModule : InteractableItem
             foundedPasswordPanel.SetActive(true);
             foundedPasswordText.text = profile.password;
         }
+        else
+        {
+            ShowLockPickPanel();
+        }
         col.enabled = false;
     }
     public void ToDefault()
@@ -94,6 +112,7 @@ public class ComputerModule : InteractableItem
         playerUI.SetPointerVisible(true);
         playerLokomotion.ReturnLocomotionOpportunity();
         playerLook.ToDefaultState();
+        LockPickPack.SetActive(false);
     }
 
     public void OnProfileDataChanged()
@@ -105,10 +124,25 @@ public class ComputerModule : InteractableItem
         attemtsCountText.text = "Попыток " + currentAttemptsCount;
     }
 
+    public void UseLockPick()
+    {
+        source.PlayOneShot(lockPickSound);
+        playerInfoHolder.electronicLockPickItemsCount--;
+        ShowMainScreen();
+    }
+
     public void UseFoundedPassword()
+    {
+        source.PlayOneShot(defaultLoginSound);
+        ShowMainScreen();
+    }
+
+    private void ShowMainScreen()
     {
         commandPack.SetActive(true);
         passwordPack.SetActive(false);
+        blockPack.SetActive(false);
+        LockPickPack.SetActive(false);
     }
 
     void Start()
@@ -142,6 +176,15 @@ public class ComputerModule : InteractableItem
                 CheckPassword();
             }
             yield return null;
+        }
+    }
+
+    private void ShowLockPickPanel()
+    {
+        if(playerInfoHolder.electronicLockPickItemsCount > 0)
+        {
+            LockPickPack.SetActive(true);
+            lockPickCountText.text = "Отмычек: " + playerInfoHolder.electronicLockPickItemsCount.ToString();
         }
     }
 }

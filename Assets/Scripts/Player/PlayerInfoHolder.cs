@@ -9,6 +9,8 @@ public class PlayerInfoHolder : MonoBehaviour
 {
     private List<ComputerModule> computers;
 
+    public int electronicLockPickItemsCount = 0;
+
     private void Start()
     {
         computers = new List<ComputerModule>();
