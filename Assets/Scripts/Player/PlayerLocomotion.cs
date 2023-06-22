@@ -125,7 +125,7 @@ public class PlayerLocomotion : MonoBehaviour
     }
     private void SitStateToggle()
     {
-        if(Input.GetButtonDown("Sit") && opportunityToMove && sitState != SitState.ChangeState)
+        if (Input.GetButtonDown("Sit") && opportunityToMove && sitState != SitState.ChangeState)
         {
             if (sitState == SitState.Stay)
             {
@@ -134,8 +134,14 @@ public class PlayerLocomotion : MonoBehaviour
             }
             else
             {
-                sitState = SitState.ChangeState;
-                StartCoroutine(ToStayStateCoroutine());
+                Vector3 checkVector = stayFacePoint.position - faceHeight.position - Vector3.down*0.2f;
+                Ray ray = new Ray(faceHeight.position - Vector3.down * 0.2f, checkVector);
+
+                if (!Physics.Raycast(ray, checkVector.magnitude, ~ignoreMask))
+                {
+                    sitState = SitState.ChangeState;
+                    StartCoroutine(ToStayStateCoroutine());
+                }
             }
         }
     }
@@ -185,7 +191,6 @@ public class PlayerLocomotion : MonoBehaviour
         Vector3 startCapsuleCenter = capsuleCollider.center;
         Vector3 targetCapsuleCenter = new Vector3(0, 0.52f, 0);
         Vector3 startFacePosition = faceHeight.position;
-        Vector3 targetFacePosition = sitFacePoint.position;
 
         float t = 0;
 
@@ -193,7 +198,7 @@ public class PlayerLocomotion : MonoBehaviour
         {
             capsuleCollider.height = Mathf.Lerp(startCapsuleHeight, targetCapsuleHeight, t);
             capsuleCollider.center = Vector3.Lerp(startCapsuleCenter, targetCapsuleCenter, t);
-            faceHeight.position = Vector3.Lerp(startFacePosition, targetFacePosition, t);
+            faceHeight.position = Vector3.Lerp(startFacePosition, sitFacePoint.position, t);
             t += Time.deltaTime * sitStateChangeSpeed;
 
             yield return null;
@@ -203,12 +208,14 @@ public class PlayerLocomotion : MonoBehaviour
     }
     private IEnumerator ToStayStateCoroutine()
     {
+     
+
+
         float startCapsuleHeight = capsuleCollider.height;
         float targetCapsuleHeight = capsuleCollider.height * 2;
         Vector3 startCapsuleCenter = capsuleCollider.center;
         Vector3 targetCapsuleCenter = new Vector3(0, 0.94f, 0);
         Vector3 startFacePosition = faceHeight.position;
-        Vector3 targetFacePosition = stayFacePoint.position;
 
         float t = 0;
 
@@ -216,7 +223,7 @@ public class PlayerLocomotion : MonoBehaviour
         {
             capsuleCollider.height = Mathf.Lerp(startCapsuleHeight, targetCapsuleHeight, t);
             capsuleCollider.center = Vector3.Lerp(startCapsuleCenter, targetCapsuleCenter, t);
-            faceHeight.position = Vector3.Lerp(startFacePosition, targetFacePosition, t);
+            faceHeight.position = Vector3.Lerp(startFacePosition, stayFacePoint.position, t);
             t += Time.deltaTime * sitStateChangeSpeed;
 
             yield return null;
