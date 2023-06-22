@@ -10,7 +10,11 @@ using UnityEngine.SceneManagement;
 [HelpURL("https://docs.google.com/document/d/1Gtygy76qzWktagW6KIqYZ_6ulFcFOMskSB0LZN84AL0/edit?usp=sharing")]
 public class PlayerUI : MonoBehaviour
 {
+    public Animator damagePanel;
+    public Animator shieldPanel;
+    [Tooltip("Слайдер уровня заряда скафандра")] public Slider healthSlider;
     [Tooltip("Слайдер уровня заряда скафандра")] public Slider energySlider;
+    public Text healItemsCount;
     [SerializeField, Tooltip("Текст - подсказка при наведении на интерактивный объект")] private Text text;
     [SerializeField, Tooltip("Текст - иконка прицела")] private Image pointerImage;
     [SerializeField, Tooltip("Стандартная иконка прицела")] private Sprite defaultPointerSprite;
@@ -170,6 +174,8 @@ public class PlayerUI : MonoBehaviour
             deathPanel.color = Color.Lerp(noAlphaColor, foolAlphaColor, t);
             yield return null;
         }
+
+        noAlphaDeathPanelEvent?.Invoke();
     }
     private IEnumerator DeathPanelToZeroCoroutine()
     {

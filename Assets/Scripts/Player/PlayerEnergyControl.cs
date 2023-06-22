@@ -5,15 +5,15 @@ using UnityEngine;
 /// Скрипт, управляющий зарядом скафандра
 /// </summary>
 [HelpURL("https://docs.google.com/document/d/1KPj6PQdem4UZ1I2N8boi_pYtEZRDkm6yu8ZQ62RRO8E/edit?usp=sharing")]
-public class PlayerEnegyControl : MonoBehaviour
+public class PlayerEnergyControl : MonoBehaviour
 {
     [SerializeField, Min(1), Tooltip("Максимальный уровень заряда")] private float maxEnergyValue;
     [SerializeField, Range(0, 1), Tooltip("Уровень расхода энергии при взаимодействиях")]
     private float interationDischarge;
     [SerializeField, Range(0, 1), Tooltip("Уровень расхода энергии при уроне")] private float dangersDischarge;
-    [SerializeField, Range(0, 1), Tooltip("Уровень постоянного расхода энергии")] private float constantDischarge;
     [SerializeField, Tooltip("Точка воскрешения")] private Transform spawnPoint;
-
+    [SerializeField, Range(1,100)]
+    private float healForOneHealItem = 20;
 
     private PlayerUI playerUI;
     private PlayerLocomotion playerLocomotion;
@@ -22,6 +22,9 @@ public class PlayerEnegyControl : MonoBehaviour
     private Collider colliderBufer;
     private DangerPoint buferDangerPoint;
     private EnergyPoint buferEnergyPoint;
+
+    private int healItemsCount = 0;
+
 
     private void Start()
     {
@@ -32,6 +35,9 @@ public class PlayerEnegyControl : MonoBehaviour
         playerUI.energySlider.minValue = 0;
         playerUI.energySlider.maxValue = maxEnergyValue;
         playerUI.energySlider.value = maxEnergyValue;
+        playerUI.healthSlider.minValue = 0;
+        playerUI.healthSlider.maxValue = 100;
+        playerUI.healthSlider.value = 100;
 
         Subscribe();
     }
@@ -42,9 +48,9 @@ public class PlayerEnegyControl : MonoBehaviour
 
     private void Update()
     {
-        if(constantDischarge > 0)
+        if (Input.GetKeyDown(KeyCode.Q) && playerUI.healthSlider.value != playerUI.healthSlider.maxValue && healItemsCount > 0)
         {
-            SpendEnergy(Time.deltaTime * constantDischarge);
+            UseHealItem();
         }
     }
 
@@ -68,6 +74,18 @@ public class PlayerEnegyControl : MonoBehaviour
         }
     }
 
+    public void AddHealItem()
+    {
+        healItemsCount++;
+        playerUI.healItemsCount.text = "x" + healItemsCount;
+    }
+    private void UseHealItem()
+    {
+        healItemsCount--;
+        playerUI.healthSlider.value += healForOneHealItem;
+        playerUI.healItemsCount.text = "X" + healItemsCount;
+    }
+
     /// <summary>
     /// Разрядить скафандр на указанное количество единиц
     /// </summary>
@@ -75,9 +93,30 @@ public class PlayerEnegyControl : MonoBehaviour
     public void SpendEnergy(float value)
     {
         playerUI.energySlider.value -= value;
-        if(playerUI.energySlider.value <= 0)
+    }
+
+    public void GetDamageFromFall(float value)
+    {
+        playerUI.healthSlider.value-= value;
+        if(playerUI.healthSlider.value <= 0)
         {
             Death();
+        }
+        playerUI.damagePanel.SetTrigger("Hit");
+    }
+
+    private void GetDamage(float value)
+    {
+        SpendEnergy(value);
+        if (playerUI.energySlider.value <= 0)
+        {
+            playerUI.shieldPanel.SetBool("IsActive", false);
+            playerUI.damagePanel.SetBool("IsActive", true);
+            playerUI.healthSlider.value -= value * 1.5f;
+            if (playerUI.healthSlider.value <= 0)
+            {
+                Death();
+            }
         }
     }
 
@@ -86,12 +125,20 @@ public class PlayerEnegyControl : MonoBehaviour
         if(dangersDischarge > 0 && other.CompareTag("Danger"))
         {
             colliderBufer = other;
+            if (playerUI.energySlider.value > 0)
+            {
+                playerUI.shieldPanel.SetBool("IsActive", true);
+            }
+            else
+            {
+                playerUI.damagePanel.SetBool("IsActive", true);
+            }
             if(other.TryGetComponent<DangerPoint>(out buferDangerPoint))
             {
                 playerUI.SetEffect(buferDangerPoint.effectSprite);
             }
         }
-        else if(other.CompareTag("EnergyPoint") && playerUI.energySlider.value > 0)
+        else if(other.CompareTag("EnergyPoint") && playerUI.energySlider.value < 100)
         {
             if(other.TryGetComponent<EnergyPoint>(out buferEnergyPoint))
             {
@@ -106,6 +153,8 @@ public class PlayerEnegyControl : MonoBehaviour
     {
         if (other == colliderBufer)
         {
+            playerUI.shieldPanel.SetBool("IsActive", false);
+            playerUI.damagePanel.SetBool("IsActive", false);
             playerUI.ReturnEffectToDefault();
         }
     }
@@ -114,7 +163,7 @@ public class PlayerEnegyControl : MonoBehaviour
     {
         if(dangersDischarge > 0 && other == colliderBufer && other.CompareTag("Danger"))
         {
-            SpendEnergy(dangersDischarge * buferDangerPoint.damage * Time.deltaTime);
+            GetDamage(dangersDischarge * buferDangerPoint.damage * Time.deltaTime);
         }
     }
 
@@ -129,6 +178,7 @@ public class PlayerEnegyControl : MonoBehaviour
     {
         playerLocomotion.TeleportToPoint(spawnPoint);
         playerUI.energySlider.value = maxEnergyValue;
+        playerUI.healthSlider.value = maxEnergyValue;
     }
     private void UnblockPlayer()
     {
@@ -145,7 +195,7 @@ public class PlayerEnegyControl : MonoBehaviour
     {
         while(playerUI.energySlider.value < maxEnergyValue)
         {
-            playerUI.energySlider.value += Time.deltaTime * 5;
+            playerUI.energySlider.value += Time.deltaTime * 15;
             yield return null;
         }
     }

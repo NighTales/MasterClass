@@ -20,7 +20,6 @@ public class MessageSystem : MonoBehaviour
     private Transform messagesScrollViewConten;
 
     private const int heightForOneString = 29;
-    private const int widthForOneCharacter = 4;
 
     public void DrawMessagesFromBaseWithIndex(int index)
     {
@@ -71,6 +70,11 @@ public class MessageSystem : MonoBehaviour
 
     public void PrepareAllCommandModules()
     {
+        for (int i = 0; i < messagesConten.childCount; i++)
+        {
+            Destroy(messagesConten.GetChild(i).gameObject);
+        }
+
         for (int i = 0; i < messageSessions.Count; i++)
         {
             MessageDatabase item = messageSessions[i];
