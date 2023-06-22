@@ -152,7 +152,9 @@ public class ComputerModule : InteractableItem
         playerLokomotion = FindObjectOfType<PlayerLocomotion>();
         playerLook = FindObjectOfType<PlayerLook>();
         playerUI = FindObjectOfType<PlayerUI>();
-        OnProfileDataChanged();
+        loginText.text = profile.login;
+        currentAttemptsCount = numberOfAttempts;
+        attemtsCountText.text = "Попыток " + currentAttemptsCount;
         profile.ProfileDataChanged += OnProfileDataChanged;
     }
 
