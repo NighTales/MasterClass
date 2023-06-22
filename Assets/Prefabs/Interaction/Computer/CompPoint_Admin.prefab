@@ -1505,7 +1505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraRenderScreen: {fileID: 2231355659912826588}
-  "\u0441ommandModuleContent": {fileID: 7122731344781223954}
+  commandModuleContent: {fileID: 7122731344781223954}
   commandsContent: {fileID: 2231355660583145842}
   commandButtonPrefab: {fileID: 7020114230138773071, guid: a86cfef4deb651c4e80ee1245baef56b, type: 3}
   moduleItems:
