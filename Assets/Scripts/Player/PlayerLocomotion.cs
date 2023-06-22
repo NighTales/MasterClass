@@ -125,7 +125,7 @@ public class PlayerLocomotion : MonoBehaviour
     }
     private void SitStateToggle()
     {
-        if(Input.GetButtonDown("Sit") && opportunityToMove && sitState != SitState.ChangeState)
+        if (Input.GetButtonDown("Sit") && opportunityToMove && sitState != SitState.ChangeState)
         {
             if (sitState == SitState.Stay)
             {
@@ -134,9 +134,10 @@ public class PlayerLocomotion : MonoBehaviour
             }
             else
             {
-                Vector3 checkVector = stayFacePoint.position - faceHeight.position;
-                Ray ray = new Ray(faceHeight.position, checkVector);
-                if (!Physics.SphereCast(ray, 0.3f, checkVector.magnitude, ~ignoreMask))
+                Vector3 checkVector = stayFacePoint.position - faceHeight.position - Vector3.down*0.2f;
+                Ray ray = new Ray(faceHeight.position - Vector3.down * 0.2f, checkVector);
+
+                if (!Physics.Raycast(ray, checkVector.magnitude, ~ignoreMask))
                 {
                     sitState = SitState.ChangeState;
                     StartCoroutine(ToStayStateCoroutine());
