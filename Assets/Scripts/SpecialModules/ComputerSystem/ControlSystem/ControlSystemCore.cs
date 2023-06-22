@@ -12,7 +12,7 @@ public class ControlSystemCore : MonoBehaviour
     private RawImage cameraRenderScreen;
 
     [SerializeField]
-    private Transform ñommandModuleContent;
+    private Transform commandModuleContent;
     [SerializeField]
     private Transform commandsContent;
 
@@ -34,9 +34,9 @@ public class ControlSystemCore : MonoBehaviour
 
     public void ClearAllCommandModules()
     {
-        for (int i = 0; i < ñommandModuleContent.childCount; i++)
+        for (int i = 0; i < commandModuleContent.childCount; i++)
         {
-            Destroy(ñommandModuleContent.GetChild(i).gameObject);
+            Destroy(commandModuleContent.GetChild(i).gameObject);
         }
 
         cameraRenderScreen.gameObject.SetActive(false);
@@ -66,7 +66,7 @@ public class ControlSystemCore : MonoBehaviour
         for (int i = 0; i < moduleItems.Count; i++)
         {
             ModuleItem item = moduleItems[i];
-            GameObject commandButton = Instantiate(commandButtonPrefab, ñommandModuleContent);
+            GameObject commandButton = Instantiate(commandButtonPrefab, commandModuleContent);
             commandButton.GetComponent<MessageItem>().messageTextBlock.text = item.name;
             int bufer = i;
             commandButton.GetComponent<Button>().onClick.AddListener(() => SetModuleItemWithNumber(bufer));
