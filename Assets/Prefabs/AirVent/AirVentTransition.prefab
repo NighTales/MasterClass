@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: 5698651744888881359}
   - component: {fileID: 7291832049955562802}
   - component: {fileID: 3435460084614731982}
+  - component: {fileID: 1248390374008745003}
   m_Layer: 0
   m_Name: door__ToAirVent
   m_TagString: Untagged
@@ -367,6 +368,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debug: 0
   used: 0
+--- !u!114 &1248390374008745003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625944498239394540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c57fd87c9f27d742af7fc42d228aa66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundType: 2
 --- !u!1 &625944498239400274
 GameObject:
   m_ObjectHideFlags: 0
@@ -897,6 +911,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 793bf08ca0e24ad4cb0797b181572773, type: 3}
+--- !u!1 &5942573707378761413 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1608522827371442563, guid: 793bf08ca0e24ad4cb0797b181572773, type: 3}
+  m_PrefabInstance: {fileID: 4911982091676675910}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3302038412685438248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5942573707378761413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c57fd87c9f27d742af7fc42d228aa66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundType: 2
 --- !u!1001 &6266255767826394475
 PrefabInstance:
   m_ObjectHideFlags: 0

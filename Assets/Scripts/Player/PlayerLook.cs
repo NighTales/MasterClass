@@ -35,9 +35,9 @@ public class PlayerLook : MonoBehaviour
 
     private void Rotate()
     {
-        _rotationX -= Input.GetAxis("Mouse Y") * sensitivityVert * Time.deltaTime * multiplicator;
+        _rotationX -= Input.GetAxis("Mouse Y") * sensitivityVert * Time.deltaTime * multiplicator * SettingsHolder.Sensivity;
         _rotationX = Mathf.Clamp(_rotationX, minimumVert, maximumVert);
-        float delta = Input.GetAxis("Mouse X") * sensitivityHor * Time.deltaTime * multiplicator;
+        float delta = Input.GetAxis("Mouse X") * sensitivityHor * Time.deltaTime * multiplicator * SettingsHolder.Sensivity;
         float rotationY = transform.localEulerAngles.y + delta;
         transform.localEulerAngles = new Vector3(0, rotationY, 0);
         cam.localEulerAngles = new Vector3(_rotationX, 0, 0);

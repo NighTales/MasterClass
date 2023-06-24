@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 /// <summary>
 /// Управление интерфейсом
@@ -26,6 +27,7 @@ public class PlayerUI : MonoBehaviour
     [SerializeField, Tooltip("Финальная панель")] private GameObject finalPanel;
     [SerializeField, Tooltip("Иконка финальной панели")] private Image finalIcon;
     [SerializeField, Tooltip("Текст финальной панели")] private Text finalText;
+    [SerializeField] private SettingUIPack settingsPack;
 
     public event Action foolAlphaDeathPanelEvent;
     public event Action noAlphaDeathPanelEvent;
@@ -33,6 +35,9 @@ public class PlayerUI : MonoBehaviour
     private bool endGame = false;
     private PlayerLook playerLook;
     private AsyncOperation sceneLoading;
+
+    [HideInInspector]
+    public UnityEvent<bool> pauseStateChanged = new UnityEvent<bool>();
 
     void Start()
     {
@@ -45,6 +50,7 @@ public class PlayerUI : MonoBehaviour
         StartCoroutine(PrepareSceneCoroutine());
         taskPanel.SetActive(false);
         finalPanel.SetActive(false);
+        settingsPack.Init();
     }
 
     private void Update()
@@ -52,6 +58,7 @@ public class PlayerUI : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape) && !endGame)
         {
             mainMenu.SetActive(!mainMenu.activeSelf);
+            pauseStateChanged?.Invoke(mainMenu.activeSelf);
             Time.timeScale = mainMenu.activeSelf ? 0 : 1;
             playerLook.SetCursorVisible(mainMenu.activeSelf);
             if (mainMenu.activeSelf)
@@ -206,4 +213,128 @@ public class PlayerUI : MonoBehaviour
             yield return null;
         }
     }
+}
+
+[System.Serializable]
+public class SettingUIPack
+{
+    public Slider sensivitySlider;
+    public Slider musicSlider;
+    public Slider voiceSlider;
+    public Slider soundsSlider;
+    public Toggle useSusbsToggle;
+
+    public void Init()
+    {
+        sensivitySlider.value = SettingsHolder.Sensivity;
+        sensivitySlider.onValueChanged.AddListener(InvokeSensivityChanged);
+        musicSlider.value = SettingsHolder.Music;
+        musicSlider.onValueChanged.AddListener(InvokeMusicVolumeChanged);
+        voiceSlider.value = SettingsHolder.Voice;
+        voiceSlider.onValueChanged.AddListener(InvokeVoiceVolumeChanged);
+        soundsSlider.value = SettingsHolder.Effects;
+        soundsSlider.onValueChanged.AddListener(InvokeSoundVolumeChanged);
+        useSusbsToggle.isOn = SettingsHolder.UseSubs;
+        useSusbsToggle.onValueChanged.AddListener(InvokeUseSubsChanged);
+    }
+
+    public void InvokeMusicVolumeChanged(float value)
+    {
+        SettingsHolder.Music = value;
+    }
+    public void InvokeVoiceVolumeChanged(float value)
+    {
+        SettingsHolder.Voice = value;
+    }
+    public void InvokeSoundVolumeChanged(float value)
+    {
+        SettingsHolder.Effects = value;
+    }
+    public void InvokeSensivityChanged(float value)
+    {
+        SettingsHolder.Sensivity = value;
+    }
+    public void InvokeUseSubsChanged(bool value)
+    {
+        SettingsHolder.UseSubs = value;
+    }
+}
+
+public static class SettingsHolder
+{
+    public static float Sensivity
+    {
+        get 
+        { 
+            return _sensivity;
+        }
+        set 
+        {
+            _sensivity = value;
+            SensivityChanged?.Invoke(value);
+        }
+    }
+    private static float _sensivity = 0.5f;
+
+    public static float Music
+    {
+        get
+        {
+            return _music;
+        }
+        set
+        {
+            _music = value;
+            MusicVolumeChanged?.Invoke(value);
+        }
+    }
+    private static float _music = 1;
+
+    public static float Effects
+    {
+        get
+        {
+            return _sounds;
+        }
+        set
+        {
+            _sounds = value;
+            SoundsVolumeChanged?.Invoke(value);
+        }
+    }
+    private static float _sounds = 1;
+
+    public static float Voice
+    {
+        get
+        {
+            return _voice;
+        }
+        set
+        {
+            _voice = value;
+            VoiceVolumeChanged?.Invoke(value);
+        }
+    }
+    private static float _voice = 1;
+
+    public static bool UseSubs
+    {
+        get
+        {
+            return _useSubs;
+        }
+        set
+        {
+            _useSubs = value;
+            UseSubsChanged?.Invoke(value);
+        }
+    }
+    private static bool _useSubs = true;
+
+    public static UnityEvent<float> VoiceVolumeChanged = new UnityEvent<float>();
+    public static UnityEvent<float> MusicVolumeChanged = new UnityEvent<float>();
+    public static UnityEvent<float> SoundsVolumeChanged = new UnityEvent<float>();
+    public static UnityEvent<float> SensivityChanged = new UnityEvent<float>();
+    public static UnityEvent<bool> UseSubsChanged = new UnityEvent<bool>();
 }

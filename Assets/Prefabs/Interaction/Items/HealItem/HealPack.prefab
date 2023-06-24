@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1049135496794434927}
   - component: {fileID: 415623643333081046}
   - component: {fileID: 415623643333081047}
+  - component: {fileID: 5743972758745262804}
   m_Layer: 0
   m_Name: HealPack
   m_TagString: Untagged
@@ -143,6 +144,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debug: 0
   used: 0
+--- !u!114 &5743972758745262804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415623643333081045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c57fd87c9f27d742af7fc42d228aa66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundType: 2
 --- !u!1 &3834518034946267256
 GameObject:
   m_ObjectHideFlags: 0
@@ -1137,6 +1151,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealItem
       objectReference: {fileID: 0}
+    - target: {fileID: 2563816857274059396, guid: 68d325356b162b947baebdc368759914, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6171263634684066792, guid: 68d325356b162b947baebdc368759914, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1199,6 +1217,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealItem
       objectReference: {fileID: 0}
+    - target: {fileID: 2563816857274059396, guid: 68d325356b162b947baebdc368759914, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6171263634684066792, guid: 68d325356b162b947baebdc368759914, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1260,6 +1282,10 @@ PrefabInstance:
     - target: {fileID: 2563816857274059396, guid: 68d325356b162b947baebdc368759914, type: 3}
       propertyPath: m_Name
       value: HealItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 2563816857274059396, guid: 68d325356b162b947baebdc368759914, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6171263634684066792, guid: 68d325356b162b947baebdc368759914, type: 3}
       propertyPath: m_RootOrder
@@ -1571,6 +1597,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealItem
       objectReference: {fileID: 0}
+    - target: {fileID: 2563816857274059396, guid: 68d325356b162b947baebdc368759914, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6171263634684066792, guid: 68d325356b162b947baebdc368759914, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1632,6 +1662,10 @@ PrefabInstance:
     - target: {fileID: 2563816857274059396, guid: 68d325356b162b947baebdc368759914, type: 3}
       propertyPath: m_Name
       value: HealItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 2563816857274059396, guid: 68d325356b162b947baebdc368759914, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6171263634684066792, guid: 68d325356b162b947baebdc368759914, type: 3}
       propertyPath: m_RootOrder
