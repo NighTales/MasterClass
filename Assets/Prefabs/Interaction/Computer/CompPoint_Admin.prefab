@@ -2153,6 +2153,7 @@ GameObject:
   - component: {fileID: 2231355660504986236}
   - component: {fileID: 2231355660504986239}
   - component: {fileID: 5017214874028195812}
+  - component: {fileID: 23427970710540942}
   m_Layer: 0
   m_Name: CompPoint_Admin
   m_TagString: Interactable
@@ -2325,6 +2326,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &23427970710540942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2231355660504986238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c57fd87c9f27d742af7fc42d228aa66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundType: 2
 --- !u!1 &2231355660583145853
 GameObject:
   m_ObjectHideFlags: 0

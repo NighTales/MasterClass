@@ -14,6 +14,8 @@ public class PlayerEnergyControl : MonoBehaviour
     [SerializeField, Tooltip("Точка воскрешения")] private Transform spawnPoint;
     [SerializeField, Range(1,100)]
     private float healForOneHealItem = 20;
+    [SerializeField]
+    private KeyCode healKey = KeyCode.F;
 
     private PlayerUI playerUI;
     private PlayerLocomotion playerLocomotion;
@@ -48,7 +50,7 @@ public class PlayerEnergyControl : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && playerUI.healthSlider.value != playerUI.healthSlider.maxValue && healItemsCount > 0)
+        if (Input.GetKeyDown(healKey) && playerUI.healthSlider.value != playerUI.healthSlider.maxValue && healItemsCount > 0)
         {
             UseHealItem();
         }
