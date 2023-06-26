@@ -24,8 +24,8 @@ public class TransformModule : UsingObject
     [SerializeField, Tooltip("График изменения скорости")] private AnimationCurve accelCurve;
     [SerializeField, Tooltip("Смещение целевой точки относительно стартовой")] private Vector3 end = Vector3.forward;
 
-    private Vector3 localStart;
-    private Vector3 localTarget;
+    private Vector3 Start;
+    private Vector3 Target;
     private bool activate = false;
     private float time = 0f;
     private float position = 0f;
@@ -33,8 +33,8 @@ public class TransformModule : UsingObject
 
     private void Awake()
     {
-        localStart = transform.localPosition;
-        localTarget = transform.localPosition + end;
+        Start = transform.position;
+        Target = transform.TransformPoint(end);
     }
 
     private void StartMovement()
@@ -66,8 +66,8 @@ public class TransformModule : UsingObject
     private void PerformTransform(float position)
     {
         var curvePosition = accelCurve.Evaluate(position);
-        var pos = Vector3.Lerp(localStart, localTarget, curvePosition);
-        transform.localPosition = pos;
+        var pos = Vector3.Lerp(Start, Target, curvePosition);
+        transform.position = pos;
     }
 
     void LoopPingPong()
@@ -96,7 +96,7 @@ public class TransformModule : UsingObject
         if(debug)
         {
             Gizmos.color = Color.cyan;
-            Vector3 targetPos = transform.position + transform.forward * end.z + transform.right * end.x + transform.up * end.y;
+            Vector3 targetPos = transform.TransformPoint(end);
             Gizmos.DrawWireCube(targetPos, transform.localScale);
             Gizmos.DrawLine(transform.position, targetPos);
 
@@ -107,6 +107,7 @@ public class TransformModule : UsingObject
     /// Once - Начать движение
     /// Loop,PingPong - Начать/Остановить движение
     /// </summary>
+    [ContextMenu("Use")]
     public override void Use()
     {
         if (loopType == LoopType.Once)
