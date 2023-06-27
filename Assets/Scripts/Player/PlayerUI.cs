@@ -274,7 +274,7 @@ public static class SettingsHolder
             SensivityChanged?.Invoke(value);
         }
     }
-    private static float _sensivity = 0.5f;
+    private static float _sensivity = 2f;
 
     public static float Music
     {
@@ -302,7 +302,7 @@ public static class SettingsHolder
             SoundsVolumeChanged?.Invoke(value);
         }
     }
-    private static float _sounds = 1;
+    private static float _sounds = 0.2f;
 
     public static float Voice
     {
