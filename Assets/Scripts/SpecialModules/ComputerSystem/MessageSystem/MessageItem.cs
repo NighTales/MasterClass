@@ -11,7 +11,7 @@ public class MessageInfo
 {
     public bool groupMessageFromOne;
     public string sender;
-    [TextArea]
+    [TextArea(3, 30)]
     public string message;
 }
 
