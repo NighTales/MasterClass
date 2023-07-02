@@ -33,7 +33,7 @@ public class PlayerLocomotion : MonoBehaviour
     private float minFall = -1.5f;
     private Transform oldParent;
     private PlayerEnergyControl energyControl;
-    private float fallTimer = 0;
+    private float fallValue = 0;
 
     private SitState sitState = SitState.Stay;
 
@@ -101,9 +101,10 @@ public class PlayerLocomotion : MonoBehaviour
         }
         else
         {
-            fallTimer += Time.deltaTime;
+            
             vertSpeed -= gravity * gravMultiplayer * Time.deltaTime;
 
+            fallValue = -vertSpeed;
             if (vertSpeed <= 0)
             {
                 jumpState = JumpState.Fall;
@@ -161,11 +162,11 @@ public class PlayerLocomotion : MonoBehaviour
 
         if (bufer != null && bufer.Length > 0)
         {
-            if (jumpState == JumpState.Fall && fallTimer > 1)
+            if (jumpState == JumpState.Fall && fallValue > 30)
             {
-                energyControl.GetDamageFromFall(fallTimer*20);
+                energyControl.GetDamageFromFall(fallValue);
             }
-            fallTimer = 0;
+            fallValue = 0;
 
             jumpState = JumpState.Stay;
             return true;

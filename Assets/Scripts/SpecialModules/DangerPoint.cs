@@ -8,6 +8,6 @@ using UnityEngine;
 [HelpURL("https://docs.google.com/document/d/16TuOOuhUkWtscFk0D3IT9jpPY8AifB063ohqiaJsNDs/edit?usp=sharing")]
 public class DangerPoint : MonoBehaviour
 {
-    [Range(1,10), Tooltip("”рон, наносимый точкой в секунду")] public float damage = 1;
+    [Range(1,100), Tooltip("”рон, наносимый точкой в секунду")] public float damage = 1;
     [Tooltip("»конка эффекта")] public Sprite effectSprite;
 }

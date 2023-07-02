@@ -6,7 +6,7 @@ using UnityEngine;
 [HelpURL("https://docs.google.com/document/d/1uuKl2mXgrk8ZtGrdyVY8JK23MDIb2eEX-_ulNJs1WVo/edit?usp=sharing")]
 public class Splitter : UsingOrigin
 {
-    [SerializeField, Tooltip("Запустить сразу")] private bool UseOnStart = false;
+    [SerializeField, Tooltip("Запустить сразу")] private bool UseOnStart;
 
     private void Start()
     {
